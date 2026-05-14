@@ -72,7 +72,7 @@ namespace Diego_Herrera___Prueba_2
             comboBox2.DataSource = opcionesSexo.ToList();
             comboBox2.DisplayMember = "Nombre";
             comboBox2.ValueMember = "Id";
-            comboBox2.SelectedIndex = -1;
+            comboBox2.SelectedIndex = 0;
         }
         private void Limpiar_Datos()
         {
@@ -161,7 +161,7 @@ namespace Diego_Herrera___Prueba_2
                         nuevoMascota.Rut_Dueño = textBox2.Text;
                         nuevoMascota.Estado_Mascota = comboBox1.SelectedValue.ToString();
                         nuevoMascota.Nombre = textBox3.Text;
-                        nuevoMascota.tipo = comboBox2.SelectedValue.ToString();
+                        nuevoMascota.tipo = comboBox2.Text;
                         nuevoMascota.raza = textBox4.Text;
                         nuevoMascota.edad = int.Parse(textBox5.Text);                       
                         bd.SaveChanges();
@@ -184,7 +184,7 @@ namespace Diego_Herrera___Prueba_2
             textBox1.Text = Fila.Cells["ID_Mascota"].Value.ToString();
             textBox2.Text = Fila.Cells["Rut_Dueño"].Value.ToString();
             textBox3.Text = Fila.Cells["Nombre"].Value.ToString();
-            textBox4.Text = Fila.Cells["reaza"].Value.ToString();
+            textBox4.Text = Fila.Cells["raza"].Value.ToString();
             textBox5.Text = Fila.Cells["edad"].Value.ToString();
             comboBox1.Text = Fila.Cells["Estado_Mascota"].Value.ToString();
             comboBox2.Text = Fila.Cells["tipo"].Value.ToString();

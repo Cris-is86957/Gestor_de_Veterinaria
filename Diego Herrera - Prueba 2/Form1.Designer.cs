@@ -56,6 +56,8 @@
             this.mascotasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.añadirNuevaMascotaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dueñosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.añadirDueñoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -309,10 +311,11 @@
             // mascotasToolStripMenuItem
             // 
             this.mascotasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dueñosToolStripMenuItem,
             this.añadirNuevaMascotaToolStripMenuItem});
             this.mascotasToolStripMenuItem.Name = "mascotasToolStripMenuItem";
-            this.mascotasToolStripMenuItem.Size = new System.Drawing.Size(85, 24);
-            this.mascotasToolStripMenuItem.Text = "Mascotas";
+            this.mascotasToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
+            this.mascotasToolStripMenuItem.Text = "Ingresar";
             // 
             // añadirNuevaMascotaToolStripMenuItem
             // 
@@ -329,6 +332,21 @@
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Añadir Nueva Mascota";
+            // 
+            // dueñosToolStripMenuItem
+            // 
+            this.dueñosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.añadirDueñoToolStripMenuItem});
+            this.dueñosToolStripMenuItem.Name = "dueñosToolStripMenuItem";
+            this.dueñosToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
+            this.dueñosToolStripMenuItem.Text = "Dueños";
+            // 
+            // añadirDueñoToolStripMenuItem
+            // 
+            this.añadirDueñoToolStripMenuItem.Name = "añadirDueñoToolStripMenuItem";
+            this.añadirDueñoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.añadirDueñoToolStripMenuItem.Text = "Añadir Dueño";
+            this.añadirDueñoToolStripMenuItem.Click += new System.EventHandler(this.añadirDueñoToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -405,6 +423,8 @@
         private System.Windows.Forms.ToolStripMenuItem mascotasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem añadirNuevaMascotaToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ToolStripMenuItem dueñosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem añadirDueñoToolStripMenuItem;
     }
 }
 

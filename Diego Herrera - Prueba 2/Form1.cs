@@ -218,5 +218,11 @@ namespace Diego_Herrera___Prueba_2
             IngresoMascota ventana = new IngresoMascota();
             ventana.ShowDialog();
         }
+
+        private void añadirDueñoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dueños ventana = new Dueños();
+            ventana.ShowDialog();
+        }
     }
 }
