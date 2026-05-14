@@ -11,24 +11,31 @@ using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+
 namespace Diego_Herrera___Prueba_2
 {
-    public partial class Form1: Form
+    public partial class Form1 : Form
     {
-        public Form1()
+        string rolActual = "";
+        public Form1(string rolDelLogin)
         {
             InitializeComponent();
+            rolActual = rolDelLogin;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            /* 
             Actualizar_Datos();
             Llenar_Categoria();
             Llenar_Marca();
             Llenar_Proveedor();
+            */
         }
+
         private void Actualizar_Datos()
         {
+            /*
             using (PruebaEntities bd = new PruebaEntities())
             {
                 var query = from miProducto in bd.Producto
@@ -46,43 +53,51 @@ namespace Diego_Herrera___Prueba_2
                 dataGridView1.DataSource = query.ToList();
                 dataGridView1.Refresh();
             }
-
+            */
         }
+
         private void Llenar_Categoria()
         {
+            /*
             using (PruebaEntities bd = new PruebaEntities())
             {
                 CbCategoria.DataSource = bd.Categoria.ToList();
                 CbCategoria.DisplayMember = "descripcion";
-                CbCategoria.ValueMember = "id_categoria"; // (Este es el dato que se pasa)
-                CbCategoria.SelectedIndex = -1; // El combobox aparecera vacio
-
+                CbCategoria.ValueMember = "id_categoria"; 
+                CbCategoria.SelectedIndex = -1; 
             }
+            */
         }
+
         private void Llenar_Marca()
         {
+            /*
             using (PruebaEntities bd = new PruebaEntities())
             {
                 CbMarca.DataSource = bd.Marca.ToList();
                 CbMarca.DisplayMember = "descripcion";
-                CbMarca.ValueMember = "id_marca"; // (Este es el dato que se pasa)
-                CbMarca.SelectedIndex = -1; // El combobox aparecera vacio
-
+                CbMarca.ValueMember = "id_marca"; 
+                CbMarca.SelectedIndex = -1; 
             }
+            */
         }
+
         private void Llenar_Proveedor()
         {
+            /*
             using (PruebaEntities bd = new PruebaEntities())
             {
                 CbProveedor.DataSource = bd.Proveedor.ToList();
                 CbProveedor.DisplayMember = "razon_social";
-                CbProveedor.ValueMember = "id_proveedor"; // (Este es el dato que se pasa)
-                CbProveedor.SelectedIndex = -1; // El combobox aparecera vacio
-
+                CbProveedor.ValueMember = "id_proveedor"; 
+                CbProveedor.SelectedIndex = -1; 
             }
+            */
         }
+
         private void Limpiar_Datos()
         {
+            /*
             textID.Text = string.Empty;
             textCodigo.Text = string.Empty;
             textNombre.Text = string.Empty;
@@ -93,10 +108,12 @@ namespace Diego_Herrera___Prueba_2
             CbProveedor.SelectedIndex = -1;
 
             textID.Enabled = true;
+            */
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textID.Text != string.Empty &&
+            /*if (textID.Text != string.Empty &&
                 textCodigo.Text != string.Empty &&
                 textNombre.Text != string.Empty &&
                 textPrecio.Text != string.Empty &&
@@ -128,11 +145,12 @@ namespace Diego_Herrera___Prueba_2
             {
                 MessageBox.Show("Debe ingresar los datos a guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+            */
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (textID.Text != string.Empty)
+            /*if (textID.Text != string.Empty)
             {
                 using (PruebaEntities bd = new PruebaEntities())
                 {
@@ -158,11 +176,12 @@ namespace Diego_Herrera___Prueba_2
             {
                 MessageBox.Show("Debe seleccionar una fila para modificar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+            */
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (textID.Text != string.Empty)
+            /*if (textID.Text != string.Empty)
             {
                 using (PruebaEntities bd = new PruebaEntities())
                 {
@@ -182,21 +201,22 @@ namespace Diego_Herrera___Prueba_2
             {
                 MessageBox.Show("Se debe seleccionar una fila para eliminar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+            */
         }
 
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            /*
             DataGridViewRow Fila = dataGridView1.Rows[e.RowIndex];
             textID.Text = Fila.Cells["id_producto"].Value.ToString();
-            textCodigo.Text = Fila.Cells["codigo"].Value.ToString();
-            textNombre.Text = Fila.Cells["nombre"].Value.ToString();
-            textPrecio.Text = Fila.Cells["precio"].Value.ToString();
-            textStock.Text = Fila.Cells["stock"].Value.ToString();
-            CbCategoria.Text = Fila.Cells["categoria"].Value.ToString();
-            CbMarca.Text = Fila.Cells["marca"].Value.ToString();
-            CbProveedor.Text = Fila.Cells["proveedor"].Value.ToString();
+            // ... resto del código
+            */
+        }
 
-            textID.Enabled = false;
+        private void añadirNuevaMascotaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IngresoMascota ventana = new IngresoMascota();
+            ventana.ShowDialog();
         }
     }
 }
