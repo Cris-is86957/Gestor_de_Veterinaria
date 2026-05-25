@@ -12,21 +12,21 @@ namespace Diego_Herrera___Prueba_2
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class USUARIO
     {
-        public Usuario()
+        public USUARIO()
         {
-            this.Agenda = new HashSet<Agenda>();
-            this.Ventas = new HashSet<Ventas>();
+            this.AGENDA = new HashSet<AGENDA>();
+            this.VENTAS = new HashSet<VENTAS>();
         }
     
-        public string Rut_Usuario { get; set; }
-        public string Estado_Usuario { get; set; }
+        public string Rut_usuario { get; set; }
+        public bool Estado_usuario { get; set; }
         public string nombre { get; set; }
         public string apellido { get; set; }
         public string password { get; set; }
     
-        public virtual ICollection<Agenda> Agenda { get; set; }
-        public virtual ICollection<Ventas> Ventas { get; set; }
+        public virtual ICollection<AGENDA> AGENDA { get; set; }
+        public virtual ICollection<VENTAS> VENTAS { get; set; }
     }
 }

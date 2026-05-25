@@ -12,15 +12,15 @@ namespace Diego_Herrera___Prueba_2
     using System;
     using System.Collections.Generic;
     
-    public partial class Agenda
+    public partial class AGENDA
     {
         public int ID_Cita { get; set; }
-        public string Rut_Usuario { get; set; }
-        public int ID_Mascota { get; set; }
-        public System.DateTime fecha { get; set; }
-        public System.TimeSpan hora { get; set; }
+        public string Rut_usuario { get; set; }
+        public int ID_mascota { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.TimeSpan Hora { get; set; }
     
-        public virtual Mascota Mascota { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public virtual MASCOTA MASCOTA { get; set; }
+        public virtual USUARIO USUARIO { get; set; }
     }
 }

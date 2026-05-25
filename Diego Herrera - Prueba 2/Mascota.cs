@@ -12,22 +12,22 @@ namespace Diego_Herrera___Prueba_2
     using System;
     using System.Collections.Generic;
     
-    public partial class Mascota
+    public partial class MASCOTA
     {
-        public Mascota()
+        public MASCOTA()
         {
-            this.Agenda = new HashSet<Agenda>();
+            this.AGENDA = new HashSet<AGENDA>();
         }
     
-        public int ID_Mascota { get; set; }
-        public string Rut_Dueño { get; set; }
-        public string Estado_Mascota { get; set; }
-        public string Nombre { get; set; }
+        public int ID_mascota { get; set; }
+        public string Rut_dueño { get; set; }
+        public bool Estado_mascota { get; set; }
+        public string nombre { get; set; }
         public string tipo { get; set; }
         public string raza { get; set; }
         public int edad { get; set; }
     
-        public virtual ICollection<Agenda> Agenda { get; set; }
-        public virtual Dueño Dueño { get; set; }
+        public virtual ICollection<AGENDA> AGENDA { get; set; }
+        public virtual DUEÑOS DUEÑOS { get; set; }
     }
 }

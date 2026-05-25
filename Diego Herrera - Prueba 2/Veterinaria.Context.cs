@@ -25,11 +25,11 @@ namespace Diego_Herrera___Prueba_2
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Agenda> Agenda { get; set; }
-        public DbSet<Dueño> Dueño { get; set; }
-        public DbSet<Mascota> Mascota { get; set; }
-        public DbSet<Productos> Productos { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Ventas> Ventas { get; set; }
+        public DbSet<AGENDA> AGENDA { get; set; }
+        public DbSet<DUEÑOS> DUEÑOS { get; set; }
+        public DbSet<MASCOTA> MASCOTA { get; set; }
+        public DbSet<PRODUCTOS> PRODUCTOS { get; set; }
+        public DbSet<USUARIO> USUARIO { get; set; }
+        public DbSet<VENTAS> VENTAS { get; set; }
     }
 }

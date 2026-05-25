@@ -26,37 +26,36 @@ namespace Diego_Herrera___Prueba_2
         {
             string rut = textBox1.Text;
             string contra = textBox2.Text;
-           
-                try
+
+            try
+            {
+                using (VeterinariaEntities db = new VeterinariaEntities())
                 {
-                    using (VeterinariaEntities db = new VeterinariaEntities())
+                    var usuarioValido = db.USUARIO.FirstOrDefault(u => u.Rut_usuario == rut && u.password == contra);
+
+                    if (usuarioValido != null)
                     {
-                       
-                        var usuarioValido = db.Usuario.FirstOrDefault(u => u.Rut_Usuario == rut && u.password == contra);
-
-                        if (usuarioValido != null)
-                        {
-                            
-                            Form1 pantallaPrincipal = new Form1(usuarioValido.Estado_Usuario);
-                            pantallaPrincipal.Show();
-
-                           
-                            this.Hide();
-                        }
-                        else
-                        {
-                            
-                            MessageBox.Show("RUT o contraseña incorrectos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                        Form1 pantallaPrincipal = new Form1();
+                        pantallaPrincipal.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("RUT o contraseña incorrectos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                
+                string errorReal = "Error principal: " + ex.Message;
+                if (ex.InnerException != null)
                 {
-                    
-                    MessageBox.Show("Error de base de datos: " + ex.Message);
+                    errorReal += "\n\nDetalle técnico: " + ex.InnerException.Message;
                 }
-        }
+
+                MessageBox.Show(errorReal, "Error Detallado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
-    
-
+}

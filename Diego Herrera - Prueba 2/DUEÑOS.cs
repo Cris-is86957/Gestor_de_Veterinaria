@@ -12,19 +12,19 @@ namespace Diego_Herrera___Prueba_2
     using System;
     using System.Collections.Generic;
     
-    public partial class Dueño
+    public partial class DUEÑOS
     {
-        public Dueño()
+        public DUEÑOS()
         {
-            this.Mascota = new HashSet<Mascota>();
+            this.MASCOTA = new HashSet<MASCOTA>();
         }
     
         public string Rut_dueño { get; set; }
-        public string Estado_Dueño { get; set; }
+        public bool Estado_dueño { get; set; }
         public string nombre { get; set; }
         public string apell_pat { get; set; }
         public string apell_mat { get; set; }
     
-        public virtual ICollection<Mascota> Mascota { get; set; }
+        public virtual ICollection<MASCOTA> MASCOTA { get; set; }
     }
 }
