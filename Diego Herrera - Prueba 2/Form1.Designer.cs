@@ -54,10 +54,12 @@
             this.label11 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mascotasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.añadirNuevaMascotaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dueñosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.añadirDueñoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.añadirNuevaMascotaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.productosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.añadirProductoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -312,26 +314,12 @@
             // 
             this.mascotasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dueñosToolStripMenuItem,
-            this.añadirNuevaMascotaToolStripMenuItem});
+            this.añadirNuevaMascotaToolStripMenuItem,
+            this.productosToolStripMenuItem});
             this.mascotasToolStripMenuItem.Name = "mascotasToolStripMenuItem";
             this.mascotasToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.mascotasToolStripMenuItem.Text = "Ingresar";
-            // 
-            // añadirNuevaMascotaToolStripMenuItem
-            // 
-            this.añadirNuevaMascotaToolStripMenuItem.Name = "añadirNuevaMascotaToolStripMenuItem";
-            this.añadirNuevaMascotaToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.añadirNuevaMascotaToolStripMenuItem.Text = "Añadir Nueva Mascota";
-            this.añadirNuevaMascotaToolStripMenuItem.Click += new System.EventHandler(this.añadirNuevaMascotaToolStripMenuItem_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(13, 32);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(251, 160);
-            this.groupBox1.TabIndex = 24;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Añadir Nueva Mascota";
+            this.mascotasToolStripMenuItem.Click += new System.EventHandler(this.mascotasToolStripMenuItem_Click);
             // 
             // dueñosToolStripMenuItem
             // 
@@ -344,9 +332,40 @@
             // añadirDueñoToolStripMenuItem
             // 
             this.añadirDueñoToolStripMenuItem.Name = "añadirDueñoToolStripMenuItem";
-            this.añadirDueñoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.añadirDueñoToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.añadirDueñoToolStripMenuItem.Text = "Añadir Dueño";
             this.añadirDueñoToolStripMenuItem.Click += new System.EventHandler(this.añadirDueñoToolStripMenuItem_Click);
+            // 
+            // añadirNuevaMascotaToolStripMenuItem
+            // 
+            this.añadirNuevaMascotaToolStripMenuItem.Name = "añadirNuevaMascotaToolStripMenuItem";
+            this.añadirNuevaMascotaToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
+            this.añadirNuevaMascotaToolStripMenuItem.Text = "Añadir Nueva Mascota";
+            this.añadirNuevaMascotaToolStripMenuItem.Click += new System.EventHandler(this.añadirNuevaMascotaToolStripMenuItem_Click);
+            // 
+            // productosToolStripMenuItem
+            // 
+            this.productosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.añadirProductoToolStripMenuItem});
+            this.productosToolStripMenuItem.Name = "productosToolStripMenuItem";
+            this.productosToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
+            this.productosToolStripMenuItem.Text = "Productos";
+            // 
+            // añadirProductoToolStripMenuItem
+            // 
+            this.añadirProductoToolStripMenuItem.Name = "añadirProductoToolStripMenuItem";
+            this.añadirProductoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.añadirProductoToolStripMenuItem.Text = "Añadir Producto";
+            this.añadirProductoToolStripMenuItem.Click += new System.EventHandler(this.añadirProductoToolStripMenuItem_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(13, 32);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(251, 160);
+            this.groupBox1.TabIndex = 24;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Añadir Nueva Mascota";
             // 
             // Form1
             // 
@@ -425,6 +444,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ToolStripMenuItem dueñosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem añadirDueñoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem productosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem añadirProductoToolStripMenuItem;
     }
 }
 

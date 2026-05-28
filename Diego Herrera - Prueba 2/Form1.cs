@@ -224,5 +224,16 @@ namespace Diego_Herrera___Prueba_2
             Dueños ventana = new Dueños();
             ventana.ShowDialog();
         }
+
+        private void mascotasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void añadirProductoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Producto ventana = new Producto();
+            ventana.ShowDialog();
+        }
     }
 }
