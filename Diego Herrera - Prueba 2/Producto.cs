@@ -133,11 +133,11 @@ namespace Diego_Herrera___Prueba_2
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoProducto = bd.Productos.Find(textBox1.Text);
+                    var nuevoProducto = bd.Productos.Find(int.Parse(textBox1.Text));
                     if (nuevoProducto != null)
                     {
                         nuevoProducto.ID_Producto = int.Parse(textBox1.Text);
-                        nuevoProducto.Estado_Producto = comboBox1.SelectedValue.ToString();
+                        nuevoProducto.Estado_Producto = comboBox1.Text; 
                         nuevoProducto.Nombre = textBox2.Text;
                         nuevoProducto.Stock = int.Parse(textBox3.Text);
                         nuevoProducto.Precio_Unidad = int.Parse(textBox4.Text);
@@ -164,10 +164,17 @@ namespace Diego_Herrera___Prueba_2
         {
             DataGridViewRow Fila = dataGridView1.Rows[e.RowIndex];
             textBox1.Text = Fila.Cells["ID_Producto"].Value.ToString();
-            textBox2.Text = Fila.Cells["Estado_producto"].Value.ToString();
-            textBox3.Text = Fila.Cells["Nombre"].Value.ToString();
-            textBox4.Text = Fila.Cells["Stock"].Value.ToString();
-            comboBox1.Text = Fila.Cells["Precio_Unidad"].Value.ToString();
+            comboBox1.Text = Fila.Cells["Estado_Producto"].Value.ToString();
+            textBox2.Text = Fila.Cells["Nombre"].Value.ToString();
+            textBox3.Text = Fila.Cells["Stock"].Value.ToString();
+            textBox4.Text = Fila.Cells["Precio_Unidad"].Value.ToString();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form1 menuPrincipal = new Form1("Administrador");
+            menuPrincipal.Show();
+            this.Close();
         }
     }
 }

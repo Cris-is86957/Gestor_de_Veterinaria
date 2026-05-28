@@ -22,7 +22,7 @@ namespace Diego_Herrera___Prueba_2
         {
             Actualizar_Datos();
             Llenar_EstadoMascota();
-            Llenar_Tipo();
+
             Limpiar_Datos();
         }
         private void Actualizar_Datos()
@@ -62,18 +62,7 @@ namespace Diego_Herrera___Prueba_2
             comboBox1.ValueMember = "Id";        
             comboBox1.SelectedIndex = -1;        
         }
-        private void Llenar_Tipo()
-        {
-            var opcionesSexo = new[] {
-            new { Id = 1, Nombre = "Macho" },
-            new { Id = 2, Nombre = "Hembra" }
-    };
 
-            comboBox2.DataSource = opcionesSexo.ToList();
-            comboBox2.DisplayMember = "Nombre";
-            comboBox2.ValueMember = "Id";
-            comboBox2.SelectedIndex = 0;
-        }
         private void Limpiar_Datos()
         {
             textBox1.Text = string.Empty;
@@ -81,8 +70,9 @@ namespace Diego_Herrera___Prueba_2
             textBox3.Text = string.Empty;
             textBox4.Text = string.Empty;
             textBox5.Text = string.Empty;
+            textBox6.Text = string.Empty;
             comboBox1.SelectedIndex = -1;
-            comboBox2.SelectedIndex = -1;
+            
             
 
             
@@ -96,7 +86,7 @@ namespace Diego_Herrera___Prueba_2
                 textBox4.Text != string.Empty &&
                 textBox5.Text != string.Empty &&
                 comboBox1.Text != string.Empty &&
-                comboBox2.Text != string.Empty 
+                textBox6.Text != string.Empty
                )
             {
                 Mascota nuevoMascota = new Mascota();
@@ -106,7 +96,7 @@ namespace Diego_Herrera___Prueba_2
                 nuevoMascota.raza = textBox4.Text;
                 nuevoMascota.edad = int.Parse(textBox5.Text);
                 nuevoMascota.Estado_Mascota = comboBox1.SelectedValue.ToString();
-                nuevoMascota.tipo = comboBox2.SelectedValue.ToString();
+                nuevoMascota.tipo = textBox6.Text;
                 
 
                 using (VeterinariaEntities bd = new VeterinariaEntities())
@@ -161,7 +151,7 @@ namespace Diego_Herrera___Prueba_2
                         nuevoMascota.Rut_Dueño = textBox2.Text;
                         nuevoMascota.Estado_Mascota = comboBox1.SelectedValue.ToString();
                         nuevoMascota.Nombre = textBox3.Text;
-                        nuevoMascota.tipo = comboBox2.Text;
+                        nuevoMascota.tipo = textBox6.Text;
                         nuevoMascota.raza = textBox4.Text;
                         nuevoMascota.edad = int.Parse(textBox5.Text);                       
                         bd.SaveChanges();
@@ -187,10 +177,17 @@ namespace Diego_Herrera___Prueba_2
             textBox4.Text = Fila.Cells["raza"].Value.ToString();
             textBox5.Text = Fila.Cells["edad"].Value.ToString();
             comboBox1.Text = Fila.Cells["Estado_Mascota"].Value.ToString();
-            comboBox2.Text = Fila.Cells["tipo"].Value.ToString();
+            textBox6.Text = Fila.Cells["tipo"].Value.ToString();
             
 
             
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form1 menuPrincipal = new Form1("Administrador");
+            menuPrincipal.Show();
+            this.Close();
         }
     }
     }

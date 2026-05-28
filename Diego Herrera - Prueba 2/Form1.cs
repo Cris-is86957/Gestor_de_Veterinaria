@@ -113,95 +113,23 @@ namespace Diego_Herrera___Prueba_2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*if (textID.Text != string.Empty &&
-                textCodigo.Text != string.Empty &&
-                textNombre.Text != string.Empty &&
-                textPrecio.Text != string.Empty &&
-                textStock.Text != string.Empty &&
-                CbCategoria.Text != string.Empty &&
-                CbMarca.Text != string.Empty &&
-                CbProveedor.Text != string.Empty)
-            {
-                Producto nuevoProducto = new Producto();
-                nuevoProducto.id_producto = int.Parse(textID.Text);
-                nuevoProducto.codigo = textCodigo.Text;
-                nuevoProducto.nombre = textNombre.Text;
-                nuevoProducto.precio = int.Parse(textPrecio.Text);
-                nuevoProducto.stock = int.Parse(textStock.Text);
-                nuevoProducto.id_categoria = int.Parse(CbCategoria.SelectedValue.ToString());
-                nuevoProducto.id_marca = int.Parse(CbMarca.SelectedValue.ToString());
-                nuevoProducto.id_proveedor = int.Parse(CbProveedor.SelectedValue.ToString());
-
-                using (PruebaEntities bd = new PruebaEntities())
-                {
-                    bd.Producto.Add(nuevoProducto);
-                    bd.SaveChanges();
-
-                    Actualizar_Datos();
-                    Limpiar_Datos();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Debe ingresar los datos a guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            */
+            Dueños formDueños = new Dueños();
+            formDueños.Show();
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /*if (textID.Text != string.Empty)
-            {
-                using (PruebaEntities bd = new PruebaEntities())
-                {
-                    var nuevoProducto = bd.Producto.Find(int.Parse(textID.Text));
-                    if (nuevoProducto != null)
-                    {
-                        nuevoProducto.codigo = textCodigo.Text;
-                        nuevoProducto.nombre = textNombre.Text;
-                        nuevoProducto.precio = int.Parse(textPrecio.Text);
-                        nuevoProducto.stock = int.Parse(textStock.Text);
-                        nuevoProducto.id_categoria = int.Parse(CbCategoria.SelectedValue.ToString());
-                        nuevoProducto.id_marca = int.Parse(CbMarca.SelectedValue.ToString());
-                        nuevoProducto.id_proveedor = int.Parse(CbProveedor.SelectedValue.ToString());                       
-                        bd.SaveChanges();
-
-                        Actualizar_Datos();
-                        Limpiar_Datos();
-                    }
-                    
-                }
-            }
-            else
-            {
-                MessageBox.Show("Debe seleccionar una fila para modificar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            */
+            IngresoMascota formMascota = new IngresoMascota();
+            formMascota.Show();
+            this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            /*if (textID.Text != string.Empty)
-            {
-                using (PruebaEntities bd = new PruebaEntities())
-                {
-                    var nuevoProducto = bd.Producto.Find(int.Parse(textID.Text));
-                    if (nuevoProducto != null)
-                    {
-                        bd.Producto.Remove(nuevoProducto);
-                        bd.SaveChanges();
-
-                        Actualizar_Datos();
-                        Limpiar_Datos();
-                    }
-
-                }
-            }
-            else
-            {
-                MessageBox.Show("Se debe seleccionar una fila para eliminar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            */
+            Producto formProducto = new Producto();
+            formProducto.Show();
+            this.Hide();
         }
 
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

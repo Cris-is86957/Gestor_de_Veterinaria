@@ -169,5 +169,12 @@ namespace Diego_Herrera___Prueba_2
 
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form1 menuPrincipal = new Form1("Administrador");
+            menuPrincipal.Show();
+            this.Close();
+        }
     }
 }
