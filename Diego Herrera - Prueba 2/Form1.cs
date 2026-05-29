@@ -113,21 +113,21 @@ namespace Diego_Herrera___Prueba_2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Dueños formDueños = new Dueños();
-            formDueños.Show();
+            Dueños formDueño = new Dueños(rolActual);
+            formDueño.Show();
             this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            IngresoMascota formMascota = new IngresoMascota();
+            IngresoMascota formMascota = new IngresoMascota(rolActual);
             formMascota.Show();
             this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Producto formProducto = new Producto();
+            Producto formProducto = new Producto(rolActual);
             formProducto.Show();
             this.Hide();
         }
@@ -143,13 +143,13 @@ namespace Diego_Herrera___Prueba_2
 
         private void añadirNuevaMascotaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IngresoMascota ventana = new IngresoMascota();
+            IngresoMascota ventana = new IngresoMascota(rolActual);
             ventana.ShowDialog();
         }
 
         private void añadirDueñoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Dueños ventana = new Dueños();
+            Dueños ventana = new Dueños(rolActual);
             ventana.ShowDialog();
         }
 
@@ -160,8 +160,23 @@ namespace Diego_Herrera___Prueba_2
 
         private void añadirProductoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Producto ventana = new Producto();
+            Producto ventana = new Producto(rolActual);
             ventana.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (rolActual == "Administrador")
+            {
+                Usuarioscs formUsuario = new Usuarioscs(rolActual);
+                formUsuario.Show();
+                this.Hide();
+            }
+            else
+            {
+
+                MessageBox.Show("No tienes permisos de Administrador para acceder a esta sección.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

@@ -13,9 +13,11 @@ namespace Diego_Herrera___Prueba_2
 {
     public partial class IngresoMascota : Form
     {
-        public IngresoMascota()
+        private string rolGuardado = "";
+        public IngresoMascota(string rolDelUsuario)
         {
             InitializeComponent();
+            rolGuardado = rolDelUsuario;
         }
 
         private void IngresoMascota_Load(object sender, EventArgs e)
@@ -43,9 +45,19 @@ namespace Diego_Herrera___Prueba_2
                             };
                 dataGridView1.DataSource = query.ToList();
                 dataGridView1.Refresh();
-            }
+                var queryDueños = from miDueño in bd.Dueño
+                                  select new
+                                  {
+                                      miDueño.Rut_dueño,
+                                      miDueño.nombre
+                                  };
 
+                dataGridView2.DataSource = queryDueños.ToList();
+                dataGridView2.Refresh();
+            }
         }
+
+        
         private void Llenar_EstadoMascota()
         {
 
@@ -185,7 +197,7 @@ namespace Diego_Herrera___Prueba_2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form1 menuPrincipal = new Form1("Administrador");
+            Form1 menuPrincipal = new Form1(rolGuardado);
             menuPrincipal.Show();
             this.Close();
         }

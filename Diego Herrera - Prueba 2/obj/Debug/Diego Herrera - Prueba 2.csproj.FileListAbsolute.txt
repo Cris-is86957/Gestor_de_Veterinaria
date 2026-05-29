@@ -15,3 +15,4 @@ C:\Users\javie\Documents\Gestor_de_Veterinaria\Diego Herrera - Prueba 2\obj\Debu
 C:\Users\javie\Documents\Gestor_de_Veterinaria\Diego Herrera - Prueba 2\obj\Debug\Diego He.754B078C.Up2Date
 C:\Users\javie\Documents\Gestor_de_Veterinaria\Diego Herrera - Prueba 2\obj\Debug\Diego Herrera - Prueba 2.exe
 C:\Users\javie\Documents\Gestor_de_Veterinaria\Diego Herrera - Prueba 2\obj\Debug\Diego Herrera - Prueba 2.pdb
+C:\Users\javie\Documents\Gestor_de_Veterinaria\Diego Herrera - Prueba 2\obj\Debug\Diego_Herrera___Prueba_2.Usuarioscs.resources

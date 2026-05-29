@@ -12,9 +12,11 @@ namespace Diego_Herrera___Prueba_2
 {
     public partial class Producto : Form
     {
-        public Producto()
+        private string rolGuardado;
+        public Producto(string rolDelUsuario)
         {
             InitializeComponent();
+            rolGuardado = rolDelUsuario;
         }
 
         private void Producto_Load(object sender, EventArgs e)
@@ -172,7 +174,7 @@ namespace Diego_Herrera___Prueba_2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form1 menuPrincipal = new Form1("Administrador");
+            Form1 menuPrincipal = new Form1(rolGuardado);
             menuPrincipal.Show();
             this.Close();
         }
