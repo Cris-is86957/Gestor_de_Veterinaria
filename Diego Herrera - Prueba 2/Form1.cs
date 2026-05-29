@@ -141,7 +141,7 @@ namespace Diego_Herrera___Prueba_2
             */
         }
 
-        private void añadirNuevaMascotaToolStripMenuItem_Click(object sender, EventArgs e)
+        /*private void añadirNuevaMascotaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IngresoMascota ventana = new IngresoMascota(rolActual);
             ventana.ShowDialog();
@@ -162,7 +162,7 @@ namespace Diego_Herrera___Prueba_2
         {
             Producto ventana = new Producto(rolActual);
             ventana.ShowDialog();
-        }
+        }*/
 
         private void button4_Click(object sender, EventArgs e)
         {
