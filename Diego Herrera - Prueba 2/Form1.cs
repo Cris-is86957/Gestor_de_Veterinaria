@@ -175,7 +175,7 @@ namespace Diego_Herrera___Prueba_2
             else
             {
 
-                MessageBox.Show("No tienes permisos de Administrador para acceder a esta sección.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No tienes permisos de Administrador para acceder a esta seccion.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
