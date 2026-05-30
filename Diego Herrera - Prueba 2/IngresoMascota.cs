@@ -92,6 +92,11 @@ namespace Diego_Herrera___Prueba_2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            registrarMascota();
+            
+        }
+        private void registrarMascota()
+        {
             if (textBox1.Text != string.Empty &&
                 textBox2.Text != string.Empty &&
                 textBox3.Text != string.Empty &&
@@ -109,7 +114,7 @@ namespace Diego_Herrera___Prueba_2
                 nuevoMascota.edad = int.Parse(textBox5.Text);
                 nuevoMascota.Estado_Mascota = comboBox1.SelectedValue.ToString();
                 nuevoMascota.tipo = textBox6.Text;
-                
+
 
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
@@ -127,6 +132,10 @@ namespace Diego_Herrera___Prueba_2
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+            eliminar();
+        }
+        private void eliminar()
         {
             if (textBox1.Text != string.Empty)
             {
@@ -152,6 +161,10 @@ namespace Diego_Herrera___Prueba_2
 
         private void button3_Click(object sender, EventArgs e)
         {
+            sobreescribir();
+        }
+        private void sobreescribir()
+        {
             if (comboBox1.Text != string.Empty)
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
@@ -165,7 +178,7 @@ namespace Diego_Herrera___Prueba_2
                         nuevoMascota.Nombre = textBox3.Text;
                         nuevoMascota.tipo = textBox6.Text;
                         nuevoMascota.raza = textBox4.Text;
-                        nuevoMascota.edad = int.Parse(textBox5.Text);                       
+                        nuevoMascota.edad = int.Parse(textBox5.Text);
                         bd.SaveChanges();
 
                         Actualizar_Datos();

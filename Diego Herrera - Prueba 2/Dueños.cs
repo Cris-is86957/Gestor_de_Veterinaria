@@ -74,21 +74,26 @@ namespace Diego_Herrera___Prueba_2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            registrarDueño();
+
+        }
+        private void registrarDueño()
+        {
             if (textBox1.Text != string.Empty &&
                 textBox2.Text != string.Empty &&
                 textBox3.Text != string.Empty &&
                 textBox4.Text != string.Empty &&
-                comboBox1.Text != string.Empty 
+                comboBox1.Text != string.Empty
                 )
             {
                 Dueño nuevoDueño = new Dueño();
-               
+
                 nuevoDueño.Rut_dueño = textBox1.Text;
                 nuevoDueño.Estado_Dueño = comboBox1.SelectedValue.ToString();
                 nuevoDueño.nombre = textBox2.Text;
                 nuevoDueño.apell_pat = textBox3.Text;
                 nuevoDueño.apell_mat = textBox4.Text;
-                
+
 
 
                 using (VeterinariaEntities bd = new VeterinariaEntities())
@@ -108,11 +113,15 @@ namespace Diego_Herrera___Prueba_2
 
         private void button2_Click(object sender, EventArgs e)
         {
+            borrar();
+        }
+        private void borrar()
+        {
             if (textBox1.Text != string.Empty)
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoDueño = bd.Dueño.Find (textBox1.Text);
+                    var nuevoDueño = bd.Dueño.Find(textBox1.Text);
                     if (nuevoDueño != null)
                     {
                         bd.Dueño.Remove(nuevoDueño);
@@ -132,6 +141,10 @@ namespace Diego_Herrera___Prueba_2
 
         private void button3_Click(object sender, EventArgs e)
         {
+            sobreescribir();
+        }
+        private void sobreescribir()
+        {
             if (textBox1.Text != string.Empty)
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
@@ -143,7 +156,7 @@ namespace Diego_Herrera___Prueba_2
                         nuevoDueño.Estado_Dueño = comboBox1.SelectedValue.ToString();
                         nuevoDueño.nombre = textBox2.Text;
                         nuevoDueño.apell_pat = textBox3.Text;
-                        nuevoDueño.apell_mat = textBox4.Text;                    
+                        nuevoDueño.apell_mat = textBox4.Text;
                         bd.SaveChanges();
 
                         Actualizar_Datos();

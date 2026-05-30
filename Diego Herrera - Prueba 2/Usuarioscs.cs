@@ -74,6 +74,11 @@ namespace Diego_Herrera___Prueba_2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ingresar();
+
+        }
+        private void ingresar()
+        {
             if (textBox1.Text != string.Empty &&
                 textBox2.Text != string.Empty &&
                 textBox3.Text != string.Empty &&
@@ -83,10 +88,10 @@ namespace Diego_Herrera___Prueba_2
             {
                 Usuario nuevoUsuario = new Usuario();
 
-                nuevoUsuario.Rut_Usuario= textBox1.Text;
+                nuevoUsuario.Rut_Usuario = textBox1.Text;
                 nuevoUsuario.Estado_Usuario = comboBox1.SelectedValue.ToString();
                 nuevoUsuario.nombre = textBox2.Text;
-                nuevoUsuario.apellido= textBox3.Text;
+                nuevoUsuario.apellido = textBox3.Text;
                 nuevoUsuario.password = textBox4.Text;
 
 
@@ -104,10 +109,13 @@ namespace Diego_Herrera___Prueba_2
             {
                 MessageBox.Show("Debe ingresar los datos a guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+            eliminar();
+        }
+        private void eliminar()
         {
             if (textBox1.Text != string.Empty)
             {
@@ -132,6 +140,10 @@ namespace Diego_Herrera___Prueba_2
         }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+            sobreescribir();
+        }
+        private void sobreescribir()
         {
             if (textBox1.Text != string.Empty)
             {
