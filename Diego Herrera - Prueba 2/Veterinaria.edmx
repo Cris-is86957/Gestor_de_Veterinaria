@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agenda">
+          <Key>
+            <PropertyRef Name="ID_Cita" />
+          </Key>
+          <Property Name="ID_Cita" Type="int" Nullable="false" />
+          <Property Name="Rut_Usuario" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ID_Mascota" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="hora" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dueño">
+          <Key>
+            <PropertyRef Name="Rut_dueño" />
+          </Key>
+          <Property Name="Rut_dueño" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Estado_Dueño" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="apell_pat" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="apell_mat" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mascota">
+          <Key>
+            <PropertyRef Name="ID_Mascota" />
+          </Key>
+          <Property Name="ID_Mascota" Type="int" Nullable="false" />
+          <Property Name="Rut_Dueño" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Estado_Mascota" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tipo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="raza" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="edad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="ID_Producto" />
+          </Key>
+          <Property Name="ID_Producto" Type="int" Nullable="false" />
+          <Property Name="Estado_Producto" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Stock" Type="int" Nullable="false" />
+          <Property Name="Precio_Unidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Rut_Usuario" />
+          </Key>
+          <Property Name="Rut_Usuario" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Estado_Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellido" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="ID_Venta" />
+            <PropertyRef Name="Rut_Usuario" />
+            <PropertyRef Name="ID_Producto" />
+            <PropertyRef Name="Fecha_hora" />
+          </Key>
+          <Property Name="ID_Venta" Type="int" Nullable="false" />
+          <Property Name="Rut_Usuario" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ID_Producto" Type="int" Nullable="false" />
+          <Property Name="Fecha_hora" Type="datetime" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Precio_Unidad" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Dueño_Mascota">
+          <End Role="Dueño" Type="Self.Dueño" Multiplicity="1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dueño">
+              <PropertyRef Name="Rut_dueño" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="Rut_Dueño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mascota_Agenda">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Agenda" Type="Self.Agenda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="ID_Mascota" />
+            </Principal>
+            <Dependent Role="Agenda">
+              <PropertyRef Name="ID_Mascota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Ventas">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="ID_Producto" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="ID_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Agenda">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Agenda" Type="Self.Agenda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Rut_Usuario" />
+            </Principal>
+            <Dependent Role="Agenda">
+              <PropertyRef Name="Rut_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Ventas">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Rut_Usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Rut_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VeterinariaModelStoreContainer">
+          <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dueño" EntityType="Self.Dueño" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mascota" EntityType="Self.Mascota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dueño_Mascota" Association="Self.FK_Dueño_Mascota">
+            <End Role="Dueño" EntitySet="Dueño" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mascota_Agenda" Association="Self.FK_Mascota_Agenda">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Agenda" EntitySet="Agenda" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Ventas" Association="Self.FK_Productos_Ventas">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Agenda" Association="Self.FK_Usuario_Agenda">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Agenda" EntitySet="Agenda" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Ventas" Association="Self.FK_Usuario_Ventas">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VeterinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="VeterinariaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agenda" EntityType="VeterinariaModel.Agenda" />
+          <EntitySet Name="Dueño" EntityType="VeterinariaModel.Dueño" />
+          <EntitySet Name="Mascota" EntityType="VeterinariaModel.Mascota" />
+          <EntitySet Name="Productos" EntityType="VeterinariaModel.Productos" />
+          <EntitySet Name="Usuario" EntityType="VeterinariaModel.Usuario" />
+          <EntitySet Name="Ventas" EntityType="VeterinariaModel.Ventas" />
+          <AssociationSet Name="FK_Mascota_Agenda" Association="VeterinariaModel.FK_Mascota_Agenda">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Agenda" EntitySet="Agenda" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Agenda" Association="VeterinariaModel.FK_Usuario_Agenda">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Agenda" EntitySet="Agenda" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dueño_Mascota" Association="VeterinariaModel.FK_Dueño_Mascota">
+            <End Role="Dueño" EntitySet="Dueño" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Ventas" Association="VeterinariaModel.FK_Productos_Ventas">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Ventas" Association="VeterinariaModel.FK_Usuario_Ventas">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Agenda">
+          <Key>
+            <PropertyRef Name="ID_Cita" />
+          </Key>
+          <Property Name="ID_Cita" Type="Int32" Nullable="false" />
+          <Property Name="Rut_Usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ID_Mascota" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hora" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Mascota" Relationship="VeterinariaModel.FK_Mascota_Agenda" FromRole="Agenda" ToRole="Mascota" />
+          <NavigationProperty Name="Usuario" Relationship="VeterinariaModel.FK_Usuario_Agenda" FromRole="Agenda" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Dueño">
+          <Key>
+            <PropertyRef Name="Rut_dueño" />
+          </Key>
+          <Property Name="Rut_dueño" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Estado_Dueño" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="apell_pat" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="apell_mat" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mascota" Relationship="VeterinariaModel.FK_Dueño_Mascota" FromRole="Dueño" ToRole="Mascota" />
+        </EntityType>
+        <EntityType Name="Mascota">
+          <Key>
+            <PropertyRef Name="ID_Mascota" />
+          </Key>
+          <Property Name="ID_Mascota" Type="Int32" Nullable="false" />
+          <Property Name="Rut_Dueño" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Estado_Mascota" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="raza" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="edad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agenda" Relationship="VeterinariaModel.FK_Mascota_Agenda" FromRole="Mascota" ToRole="Agenda" />
+          <NavigationProperty Name="Dueño" Relationship="VeterinariaModel.FK_Dueño_Mascota" FromRole="Mascota" ToRole="Dueño" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="ID_Producto" />
+          </Key>
+          <Property Name="ID_Producto" Type="Int32" Nullable="false" />
+          <Property Name="Estado_Producto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Stock" Type="Int32" Nullable="false" />
+          <Property Name="Precio_Unidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ventas" Relationship="VeterinariaModel.FK_Productos_Ventas" FromRole="Productos" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Rut_Usuario" />
+          </Key>
+          <Property Name="Rut_Usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Estado_Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agenda" Relationship="VeterinariaModel.FK_Usuario_Agenda" FromRole="Usuario" ToRole="Agenda" />
+          <NavigationProperty Name="Ventas" Relationship="VeterinariaModel.FK_Usuario_Ventas" FromRole="Usuario" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="ID_Venta" />
+            <PropertyRef Name="Rut_Usuario" />
+            <PropertyRef Name="ID_Producto" />
+            <PropertyRef Name="Fecha_hora" />
+          </Key>
+          <Property Name="ID_Venta" Type="Int32" Nullable="false" />
+          <Property Name="Rut_Usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ID_Producto" Type="Int32" Nullable="false" />
+          <Property Name="Fecha_hora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Precio_Unidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Productos" Relationship="VeterinariaModel.FK_Productos_Ventas" FromRole="Ventas" ToRole="Productos" />
+          <NavigationProperty Name="Usuario" Relationship="VeterinariaModel.FK_Usuario_Ventas" FromRole="Ventas" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Mascota_Agenda">
+          <End Type="VeterinariaModel.Mascota" Role="Mascota" Multiplicity="1" />
+          <End Type="VeterinariaModel.Agenda" Role="Agenda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="ID_Mascota" />
+            </Principal>
+            <Dependent Role="Agenda">
+              <PropertyRef Name="ID_Mascota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Agenda">
+          <End Type="VeterinariaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="VeterinariaModel.Agenda" Role="Agenda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Rut_Usuario" />
+            </Principal>
+            <Dependent Role="Agenda">
+              <PropertyRef Name="Rut_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dueño_Mascota">
+          <End Type="VeterinariaModel.Dueño" Role="Dueño" Multiplicity="1" />
+          <End Type="VeterinariaModel.Mascota" Role="Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dueño">
+              <PropertyRef Name="Rut_dueño" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="Rut_Dueño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Ventas">
+          <End Type="VeterinariaModel.Productos" Role="Productos" Multiplicity="1" />
+          <End Type="VeterinariaModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="ID_Producto" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="ID_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Ventas">
+          <End Type="VeterinariaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="VeterinariaModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Rut_Usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Rut_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VeterinariaModelStoreContainer" CdmEntityContainer="VeterinariaEntities">
+          <EntitySetMapping Name="Agenda">
+            <EntityTypeMapping TypeName="VeterinariaModel.Agenda">
+              <MappingFragment StoreEntitySet="Agenda">
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="ID_Mascota" ColumnName="ID_Mascota" />
+                <ScalarProperty Name="Rut_Usuario" ColumnName="Rut_Usuario" />
+                <ScalarProperty Name="ID_Cita" ColumnName="ID_Cita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dueño">
+            <EntityTypeMapping TypeName="VeterinariaModel.Dueño">
+              <MappingFragment StoreEntitySet="Dueño">
+                <ScalarProperty Name="apell_mat" ColumnName="apell_mat" />
+                <ScalarProperty Name="apell_pat" ColumnName="apell_pat" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="Estado_Dueño" ColumnName="Estado_Dueño" />
+                <ScalarProperty Name="Rut_dueño" ColumnName="Rut_dueño" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mascota">
+            <EntityTypeMapping TypeName="VeterinariaModel.Mascota">
+              <MappingFragment StoreEntitySet="Mascota">
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="raza" ColumnName="raza" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado_Mascota" ColumnName="Estado_Mascota" />
+                <ScalarProperty Name="Rut_Dueño" ColumnName="Rut_Dueño" />
+                <ScalarProperty Name="ID_Mascota" ColumnName="ID_Mascota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="VeterinariaModel.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Precio_Unidad" ColumnName="Precio_Unidad" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado_Producto" ColumnName="Estado_Producto" />
+                <ScalarProperty Name="ID_Producto" ColumnName="ID_Producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="VeterinariaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="Estado_Usuario" ColumnName="Estado_Usuario" />
+                <ScalarProperty Name="Rut_Usuario" ColumnName="Rut_Usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="VeterinariaModel.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="Precio_Unidad" ColumnName="Precio_Unidad" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Fecha_hora" ColumnName="Fecha_hora" />
+                <ScalarProperty Name="ID_Producto" ColumnName="ID_Producto" />
+                <ScalarProperty Name="Rut_Usuario" ColumnName="Rut_Usuario" />
+                <ScalarProperty Name="ID_Venta" ColumnName="ID_Venta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

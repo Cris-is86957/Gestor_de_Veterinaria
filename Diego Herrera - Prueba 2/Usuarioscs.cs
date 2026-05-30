@@ -10,16 +10,17 @@ using System.Windows.Forms;
 
 namespace Diego_Herrera___Prueba_2
 {
-    public partial class Producto : Form
+    public partial class Usuarioscs : Form
     {
         private string rolGuardado;
-        public Producto(string rolDelUsuario)
+
+        public Usuarioscs(string rolDelUsuario)
         {
             InitializeComponent();
             rolGuardado = rolDelUsuario;
         }
 
-        private void Producto_Load(object sender, EventArgs e)
+        private void Usuarioscs_Load(object sender, EventArgs e)
         {
             Actualizar_Datos();
             Limpiar_Datos();
@@ -29,14 +30,14 @@ namespace Diego_Herrera___Prueba_2
         {
             using (VeterinariaEntities bd = new VeterinariaEntities())
             {
-                var query = from miProducto in bd.Productos
+                var query = from miUsuario in bd.Usuario
                             select new
                             {
-                                miProducto.ID_Producto,
-                                miProducto.Estado_Producto,
-                                miProducto.Nombre,
-                                miProducto.Stock,
-                                miProducto.Precio_Unidad,
+                                miUsuario.Rut_Usuario,
+                                miUsuario.nombre,
+                                miUsuario.apellido,
+                                miUsuario.password,
+                                miUsuario.Estado_Usuario,
 
 
                             };
@@ -44,21 +45,6 @@ namespace Diego_Herrera___Prueba_2
                 dataGridView1.Refresh();
             }
 
-        }
-        private void Ingresar_Estado()
-        {
-
-            var opcionesEstado = new[] {
-                new { Id = "Disponible", Nombre = "Disponible" },
-                new { Id = "Sin Stock", Nombre = "Sin stock" },
-
-    };
-
-
-            comboBox1.DataSource = opcionesEstado.ToList();
-            comboBox1.DisplayMember = "Nombre";
-            comboBox1.ValueMember = "Id";
-            comboBox1.SelectedIndex = -1;
         }
         private void Limpiar_Datos()
         {
@@ -70,13 +56,28 @@ namespace Diego_Herrera___Prueba_2
 
 
         }
+        private void Ingresar_Estado()
+        {
+
+            var opcionesEstado = new[] {
+                new { Id = "Activo", Nombre = "Activo" },
+                new { Id = "Inactivo", Nombre = "Inactivo" },
+
+    };
+
+
+            comboBox1.DataSource = opcionesEstado.ToList();
+            comboBox1.DisplayMember = "Nombre";
+            comboBox1.ValueMember = "Id";
+            comboBox1.SelectedIndex = -1;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            registrarProducto();
-            
+            ingresar();
+
         }
-        private void registrarProducto()
+        private void ingresar()
         {
             if (textBox1.Text != string.Empty &&
                 textBox2.Text != string.Empty &&
@@ -85,19 +86,19 @@ namespace Diego_Herrera___Prueba_2
                 comboBox1.Text != string.Empty
                 )
             {
-                Productos nuevoProducto = new Productos();
+                Usuario nuevoUsuario = new Usuario();
 
-                nuevoProducto.ID_Producto = int.Parse(textBox1.Text);
-                nuevoProducto.Estado_Producto = comboBox1.SelectedValue.ToString();
-                nuevoProducto.Nombre = textBox2.Text;
-                nuevoProducto.Stock = int.Parse(textBox3.Text);
-                nuevoProducto.Precio_Unidad = int.Parse(textBox4.Text);
+                nuevoUsuario.Rut_Usuario = textBox1.Text;
+                nuevoUsuario.Estado_Usuario = comboBox1.SelectedValue.ToString();
+                nuevoUsuario.nombre = textBox2.Text;
+                nuevoUsuario.apellido = textBox3.Text;
+                nuevoUsuario.password = textBox4.Text;
 
 
 
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    bd.Productos.Add(nuevoProducto);
+                    bd.Usuario.Add(nuevoUsuario);
                     bd.SaveChanges();
 
                     Actualizar_Datos();
@@ -112,18 +113,18 @@ namespace Diego_Herrera___Prueba_2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            borrar();
+            eliminar();
         }
-        private void borrar()
+        private void eliminar()
         {
             if (textBox1.Text != string.Empty)
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoProducto = bd.Productos.Find(textBox1.Text);
-                    if (nuevoProducto != null)
+                    var nuevoUsuario = bd.Usuario.Find(textBox1.Text);
+                    if (nuevoUsuario != null)
                     {
-                        bd.Productos.Remove(nuevoProducto);
+                        bd.Usuario.Remove(nuevoUsuario);
                         bd.SaveChanges();
 
                         Actualizar_Datos();
@@ -138,11 +139,9 @@ namespace Diego_Herrera___Prueba_2
             }
         }
 
-
         private void button3_Click(object sender, EventArgs e)
         {
             sobreescribir();
-            
         }
         private void sobreescribir()
         {
@@ -150,14 +149,14 @@ namespace Diego_Herrera___Prueba_2
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoProducto = bd.Productos.Find(int.Parse(textBox1.Text));
-                    if (nuevoProducto != null)
+                    var nuevoUsuario = bd.Usuario.Find(textBox1.Text);
+                    if (nuevoUsuario != null)
                     {
-                        nuevoProducto.ID_Producto = int.Parse(textBox1.Text);
-                        nuevoProducto.Estado_Producto = comboBox1.Text;
-                        nuevoProducto.Nombre = textBox2.Text;
-                        nuevoProducto.Stock = int.Parse(textBox3.Text);
-                        nuevoProducto.Precio_Unidad = int.Parse(textBox4.Text);
+                        nuevoUsuario.Rut_Usuario = textBox1.Text;
+                        nuevoUsuario.Estado_Usuario = comboBox1.SelectedValue.ToString();
+                        nuevoUsuario.nombre = textBox2.Text;
+                        nuevoUsuario.apellido = textBox3.Text;
+                        nuevoUsuario.password = textBox4.Text;
                         bd.SaveChanges();
 
                         Actualizar_Datos();
@@ -170,21 +169,6 @@ namespace Diego_Herrera___Prueba_2
             {
                 MessageBox.Show("Debe seleccionar una fila para modificar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            DataGridViewRow Fila = dataGridView1.Rows[e.RowIndex];
-            textBox1.Text = Fila.Cells["ID_Producto"].Value.ToString();
-            comboBox1.Text = Fila.Cells["Estado_Producto"].Value.ToString();
-            textBox2.Text = Fila.Cells["Nombre"].Value.ToString();
-            textBox3.Text = Fila.Cells["Stock"].Value.ToString();
-            textBox4.Text = Fila.Cells["Precio_Unidad"].Value.ToString();
         }
 
         private void button4_Click(object sender, EventArgs e)

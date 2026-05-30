@@ -7,19 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Diego_Herrera___Prueba_2
 {
-    public partial class Producto : Form
+    public partial class Dueños : Form
     {
-        private string rolGuardado;
-        public Producto(string rolDelUsuario)
+        private string rolGuardado = "";
+        public Dueños(string rolDelUsuario)
         {
             InitializeComponent();
             rolGuardado = rolDelUsuario;
         }
 
-        private void Producto_Load(object sender, EventArgs e)
+        private void Dueños_Load(object sender, EventArgs e)
         {
             Actualizar_Datos();
             Limpiar_Datos();
@@ -29,15 +30,15 @@ namespace Diego_Herrera___Prueba_2
         {
             using (VeterinariaEntities bd = new VeterinariaEntities())
             {
-                var query = from miProducto in bd.Productos
+                var query = from miDueño in bd.Dueño
                             select new
                             {
-                                miProducto.ID_Producto,
-                                miProducto.Estado_Producto,
-                                miProducto.Nombre,
-                                miProducto.Stock,
-                                miProducto.Precio_Unidad,
-
+                                miDueño.Rut_dueño,
+                                miDueño.Estado_Dueño,
+                                miDueño.nombre,
+                                miDueño.apell_pat,
+                                miDueño.apell_mat,
+                                
 
                             };
                 dataGridView1.DataSource = query.ToList();
@@ -49,9 +50,9 @@ namespace Diego_Herrera___Prueba_2
         {
 
             var opcionesEstado = new[] {
-                new { Id = "Disponible", Nombre = "Disponible" },
-                new { Id = "Sin Stock", Nombre = "Sin stock" },
-
+                new { Id = "Activo", Nombre = "Activo" },
+                new { Id = "Inactivo", Nombre = "Inactivo" },
+                
     };
 
 
@@ -65,18 +66,18 @@ namespace Diego_Herrera___Prueba_2
             textBox1.Text = string.Empty;
             textBox2.Text = string.Empty;
             textBox3.Text = string.Empty;
-            textBox4.Text = string.Empty;
+            textBox4.Text = string.Empty;         
             comboBox1.SelectedIndex = -1;
-
+           
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            registrarProducto();
-            
+            registrarDueño();
+
         }
-        private void registrarProducto()
+        private void registrarDueño()
         {
             if (textBox1.Text != string.Empty &&
                 textBox2.Text != string.Empty &&
@@ -85,19 +86,19 @@ namespace Diego_Herrera___Prueba_2
                 comboBox1.Text != string.Empty
                 )
             {
-                Productos nuevoProducto = new Productos();
+                Dueño nuevoDueño = new Dueño();
 
-                nuevoProducto.ID_Producto = int.Parse(textBox1.Text);
-                nuevoProducto.Estado_Producto = comboBox1.SelectedValue.ToString();
-                nuevoProducto.Nombre = textBox2.Text;
-                nuevoProducto.Stock = int.Parse(textBox3.Text);
-                nuevoProducto.Precio_Unidad = int.Parse(textBox4.Text);
+                nuevoDueño.Rut_dueño = textBox1.Text;
+                nuevoDueño.Estado_Dueño = comboBox1.SelectedValue.ToString();
+                nuevoDueño.nombre = textBox2.Text;
+                nuevoDueño.apell_pat = textBox3.Text;
+                nuevoDueño.apell_mat = textBox4.Text;
 
 
 
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    bd.Productos.Add(nuevoProducto);
+                    bd.Dueño.Add(nuevoDueño);
                     bd.SaveChanges();
 
                     Actualizar_Datos();
@@ -120,10 +121,10 @@ namespace Diego_Herrera___Prueba_2
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoProducto = bd.Productos.Find(textBox1.Text);
-                    if (nuevoProducto != null)
+                    var nuevoDueño = bd.Dueño.Find(textBox1.Text);
+                    if (nuevoDueño != null)
                     {
-                        bd.Productos.Remove(nuevoProducto);
+                        bd.Dueño.Remove(nuevoDueño);
                         bd.SaveChanges();
 
                         Actualizar_Datos();
@@ -138,11 +139,9 @@ namespace Diego_Herrera___Prueba_2
             }
         }
 
-
         private void button3_Click(object sender, EventArgs e)
         {
             sobreescribir();
-            
         }
         private void sobreescribir()
         {
@@ -150,14 +149,14 @@ namespace Diego_Herrera___Prueba_2
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoProducto = bd.Productos.Find(int.Parse(textBox1.Text));
-                    if (nuevoProducto != null)
+                    var nuevoDueño = bd.Dueño.Find(textBox1.Text);
+                    if (nuevoDueño != null)
                     {
-                        nuevoProducto.ID_Producto = int.Parse(textBox1.Text);
-                        nuevoProducto.Estado_Producto = comboBox1.Text;
-                        nuevoProducto.Nombre = textBox2.Text;
-                        nuevoProducto.Stock = int.Parse(textBox3.Text);
-                        nuevoProducto.Precio_Unidad = int.Parse(textBox4.Text);
+                        nuevoDueño.Rut_dueño = textBox1.Text;
+                        nuevoDueño.Estado_Dueño = comboBox1.SelectedValue.ToString();
+                        nuevoDueño.nombre = textBox2.Text;
+                        nuevoDueño.apell_pat = textBox3.Text;
+                        nuevoDueño.apell_mat = textBox4.Text;
                         bd.SaveChanges();
 
                         Actualizar_Datos();
@@ -172,19 +171,18 @@ namespace Diego_Herrera___Prueba_2
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridViewRow Fila = dataGridView1.Rows[e.RowIndex];
-            textBox1.Text = Fila.Cells["ID_Producto"].Value.ToString();
-            comboBox1.Text = Fila.Cells["Estado_Producto"].Value.ToString();
-            textBox2.Text = Fila.Cells["Nombre"].Value.ToString();
-            textBox3.Text = Fila.Cells["Stock"].Value.ToString();
-            textBox4.Text = Fila.Cells["Precio_Unidad"].Value.ToString();
+            textBox1.Text = Fila.Cells["Rut_Dueño"].Value.ToString();
+            textBox2.Text = Fila.Cells["nombre"].Value.ToString();
+            textBox3.Text = Fila.Cells["apell_pat"].Value.ToString();
+            textBox4.Text = Fila.Cells["apell_mat"].Value.ToString();
+            comboBox1.Text = Fila.Cells["Estado_Dueño"].Value.ToString();
+            
+
+
+
         }
 
         private void button4_Click(object sender, EventArgs e)

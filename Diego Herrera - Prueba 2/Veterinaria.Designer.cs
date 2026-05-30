@@ -1,4 +1,4 @@
-﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\Redes.TAL015PCLCR2001\source\repos\Diego Herrera - Prueba 2\Diego Herrera - Prueba 2\Model1.edmx'. 
+﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\javie\Desktop\Nueva carpeta\DiegoHerrera_Prueba2\Diego Herrera - Prueba 2\Diego Herrera - Prueba 2\Veterinaria.edmx'. 
 // Para habilitar la generación de código heredada, cambie el valor de la propiedad del diseñador 'Estrategia de generación de código'
 // por 'ObjectContext heredado'. Esta propiedad está disponible en la ventana Propiedades cuando se abre
 // el modelo en el diseñador.

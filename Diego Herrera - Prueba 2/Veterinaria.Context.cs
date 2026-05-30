@@ -13,10 +13,10 @@ namespace Diego_Herrera___Prueba_2
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PruebaEntities : DbContext
+    public partial class VeterinariaEntities : DbContext
     {
-        public PruebaEntities()
-            : base("name=PruebaEntities")
+        public VeterinariaEntities()
+            : base("name=VeterinariaEntities")
         {
         }
     
@@ -25,9 +25,11 @@ namespace Diego_Herrera___Prueba_2
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Categoria> Categoria { get; set; }
-        public DbSet<Marca> Marca { get; set; }
-        public DbSet<Producto> Producto { get; set; }
-        public DbSet<Proveedor> Proveedor { get; set; }
+        public DbSet<Agenda> Agenda { get; set; }
+        public DbSet<Dueño> Dueño { get; set; }
+        public DbSet<Mascota> Mascota { get; set; }
+        public DbSet<Productos> Productos { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Ventas> Ventas { get; set; }
     }
 }

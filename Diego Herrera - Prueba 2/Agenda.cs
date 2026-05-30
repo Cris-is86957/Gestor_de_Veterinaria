@@ -12,16 +12,15 @@ namespace Diego_Herrera___Prueba_2
     using System;
     using System.Collections.Generic;
     
-    public partial class Marca
+    public partial class Agenda
     {
-        public Marca()
-        {
-            this.Producto = new HashSet<Producto>();
-        }
+        public int ID_Cita { get; set; }
+        public string Rut_Usuario { get; set; }
+        public int ID_Mascota { get; set; }
+        public System.DateTime fecha { get; set; }
+        public System.TimeSpan hora { get; set; }
     
-        public int id_marca { get; set; }
-        public string descripcion { get; set; }
-    
-        public virtual ICollection<Producto> Producto { get; set; }
+        public virtual Mascota Mascota { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
