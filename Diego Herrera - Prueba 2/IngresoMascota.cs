@@ -14,10 +14,12 @@ namespace Diego_Herrera___Prueba_2
     public partial class IngresoMascota : Form
     {
         private string rolGuardado = "";
-        public IngresoMascota(string rolDelUsuario)
+        private string rutGuardado = "";
+        public IngresoMascota(string rolDelUsuario, string rutDelUsuario)
         {
             InitializeComponent();
             rolGuardado = rolDelUsuario;
+            rutGuardado = rutDelUsuario;
         }
 
         private void IngresoMascota_Load(object sender, EventArgs e)
@@ -210,7 +212,7 @@ namespace Diego_Herrera___Prueba_2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form1 menuPrincipal = new Form1(rolGuardado);
+            Form1 menuPrincipal = new Form1(rolGuardado, rutGuardado);
             menuPrincipal.Show();
             this.Close();
         }

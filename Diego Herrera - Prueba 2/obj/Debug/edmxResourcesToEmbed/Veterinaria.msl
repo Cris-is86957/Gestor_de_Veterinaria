@@ -50,6 +50,7 @@
     <EntitySetMapping Name="Usuario">
       <EntityTypeMapping TypeName="VeterinariaModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="rol_usuario" ColumnName="rol_usuario" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="apellido" ColumnName="apellido" />
           <ScalarProperty Name="nombre" ColumnName="nombre" />

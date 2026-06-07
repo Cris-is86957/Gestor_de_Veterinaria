@@ -87,6 +87,7 @@
     <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Agenda" Relationship="VeterinariaModel.FK_Usuario_Agenda" FromRole="Usuario" ToRole="Agenda" />
     <NavigationProperty Name="Ventas" Relationship="VeterinariaModel.FK_Usuario_Ventas" FromRole="Usuario" ToRole="Ventas" />
+    <Property Name="rol_usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Ventas">
     <Key>

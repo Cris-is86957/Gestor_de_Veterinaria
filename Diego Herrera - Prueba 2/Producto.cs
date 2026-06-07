@@ -13,10 +13,12 @@ namespace Diego_Herrera___Prueba_2
     public partial class Producto : Form
     {
         private string rolGuardado;
-        public Producto(string rolDelUsuario)
+        private string rutGuardado;
+        public Producto(string rolDelUsuario, string rutDelUsuario)
         {
             InitializeComponent();
             rolGuardado = rolDelUsuario;
+            rutGuardado = rutDelUsuario;
         }
 
         private void Producto_Load(object sender, EventArgs e)
@@ -120,7 +122,7 @@ namespace Diego_Herrera___Prueba_2
             {
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    var nuevoProducto = bd.Productos.Find(textBox1.Text);
+                    var nuevoProducto = bd.Productos.Find(int.Parse(textBox1.Text));
                     if (nuevoProducto != null)
                     {
                         bd.Productos.Remove(nuevoProducto);
@@ -189,7 +191,7 @@ namespace Diego_Herrera___Prueba_2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form1 menuPrincipal = new Form1(rolGuardado);
+            Form1 menuPrincipal = new Form1(rolGuardado, rutGuardado);
             menuPrincipal.Show();
             this.Close();
         }

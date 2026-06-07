@@ -25,6 +25,7 @@ namespace Diego_Herrera___Prueba_2
         public string nombre { get; set; }
         public string apellido { get; set; }
         public string password { get; set; }
+        public string rol_usuario { get; set; }
     
         public virtual ICollection<Agenda> Agenda { get; set; }
         public virtual ICollection<Ventas> Ventas { get; set; }

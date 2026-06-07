@@ -13,11 +13,13 @@ namespace Diego_Herrera___Prueba_2
     public partial class Usuarioscs : Form
     {
         private string rolGuardado;
+        private string rutGuardado;
 
-        public Usuarioscs(string rolDelUsuario)
+        public Usuarioscs(string rolDelUsuario, string rutDelUsuario)
         {
             InitializeComponent();
             rolGuardado = rolDelUsuario;
+            rutGuardado = rutDelUsuario;
         }
 
         private void Usuarioscs_Load(object sender, EventArgs e)
@@ -38,6 +40,7 @@ namespace Diego_Herrera___Prueba_2
                                 miUsuario.apellido,
                                 miUsuario.password,
                                 miUsuario.Estado_Usuario,
+                                miUsuario.rol_usuario
 
 
                             };
@@ -52,6 +55,7 @@ namespace Diego_Herrera___Prueba_2
             textBox2.Text = string.Empty;
             textBox3.Text = string.Empty;
             textBox4.Text = string.Empty;
+            textBox5.Text = string.Empty;
             comboBox1.SelectedIndex = -1;
 
 
@@ -83,6 +87,7 @@ namespace Diego_Herrera___Prueba_2
                 textBox2.Text != string.Empty &&
                 textBox3.Text != string.Empty &&
                 textBox4.Text != string.Empty &&
+                textBox5.Text != string.Empty &&
                 comboBox1.Text != string.Empty
                 )
             {
@@ -93,6 +98,7 @@ namespace Diego_Herrera___Prueba_2
                 nuevoUsuario.nombre = textBox2.Text;
                 nuevoUsuario.apellido = textBox3.Text;
                 nuevoUsuario.password = textBox4.Text;
+                nuevoUsuario.rol_usuario = textBox5.Text;   
 
 
 
@@ -157,6 +163,7 @@ namespace Diego_Herrera___Prueba_2
                         nuevoUsuario.nombre = textBox2.Text;
                         nuevoUsuario.apellido = textBox3.Text;
                         nuevoUsuario.password = textBox4.Text;
+                        nuevoUsuario.rol_usuario = textBox5.Text;
                         bd.SaveChanges();
 
                         Actualizar_Datos();
@@ -173,9 +180,22 @@ namespace Diego_Herrera___Prueba_2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form1 menuPrincipal = new Form1(rolGuardado);
+            Form1 menuPrincipal = new Form1(rolGuardado, rutGuardado);
             menuPrincipal.Show();
             this.Close();
+        }
+
+        private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            {
+                DataGridViewRow Fila = dataGridView1.Rows[e.RowIndex];
+                textBox1.Text = Fila.Cells["Rut_Usuario"].Value.ToString();
+                comboBox1.Text = Fila.Cells["Estado_Usuario"].Value.ToString();
+                textBox2.Text = Fila.Cells["nombre"].Value.ToString();
+                textBox3.Text = Fila.Cells["apellido"].Value.ToString();
+                textBox4.Text = Fila.Cells["password"].Value.ToString();
+                textBox5.Text = Fila.Cells["rol_usuario"].Value.ToString();
+            }
         }
     }
 }

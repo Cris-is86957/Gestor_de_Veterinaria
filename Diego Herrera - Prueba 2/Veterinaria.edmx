@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="ID_Cita" />
           </Key>
-          <Property Name="ID_Cita" Type="int" Nullable="false" />
+          <Property Name="ID_Cita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Rut_Usuario" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="ID_Mascota" Type="int" Nullable="false" />
           <Property Name="fecha" Type="date" Nullable="false" />
@@ -56,6 +56,7 @@
           <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="apellido" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="rol_usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Ventas">
           <Key>
@@ -250,6 +251,7 @@
           <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Agenda" Relationship="VeterinariaModel.FK_Usuario_Agenda" FromRole="Usuario" ToRole="Agenda" />
           <NavigationProperty Name="Ventas" Relationship="VeterinariaModel.FK_Usuario_Ventas" FromRole="Usuario" ToRole="Ventas" />
+          <Property Name="rol_usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Ventas">
           <Key>
@@ -382,6 +384,7 @@
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="VeterinariaModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="rol_usuario" ColumnName="rol_usuario" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="apellido" ColumnName="apellido" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />

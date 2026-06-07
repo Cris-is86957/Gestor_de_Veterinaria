@@ -16,11 +16,13 @@ namespace Diego_Herrera___Prueba_2
 {
     public partial class Form1 : Form
     {
-        string rolActual = "";
-        public Form1(string rolDelLogin)
+        private string rolGuardado = "";
+        private string rutGuardado = "";
+        public Form1(string rolDelUsuario, string rutDelUsuario)
         {
             InitializeComponent();
-            rolActual = rolDelLogin;
+            rolGuardado = rolDelUsuario;
+            rutGuardado = rutDelUsuario;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -113,21 +115,21 @@ namespace Diego_Herrera___Prueba_2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Dueños formDueño = new Dueños(rolActual);
+            Dueños formDueño = new Dueños(rolGuardado, rutGuardado);
             formDueño.Show();
             this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            IngresoMascota formMascota = new IngresoMascota(rolActual);
+            IngresoMascota formMascota = new IngresoMascota(rolGuardado, rutGuardado);
             formMascota.Show();
             this.Hide();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Producto formProducto = new Producto(rolActual);
+            Producto formProducto = new Producto(rolGuardado, rutGuardado);
             formProducto.Show();
             this.Hide();
         }
@@ -166,9 +168,9 @@ namespace Diego_Herrera___Prueba_2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (rolActual == "Administrador")
+            if (rolGuardado == "Administrador")
             {
-                Usuarioscs formUsuario = new Usuarioscs(rolActual);
+                Usuarioscs formUsuario = new Usuarioscs(rolGuardado, rutGuardado);
                 formUsuario.Show();
                 this.Hide();
             }
