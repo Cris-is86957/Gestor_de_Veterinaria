@@ -180,5 +180,12 @@ namespace Diego_Herrera___Prueba_2
                 MessageBox.Show("No tienes permisos de Administrador para acceder a esta seccion.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            FormsAgendar formAgenda = new FormsAgendar(rolGuardado, rutGuardado);
+            formAgenda.Show();
+            this.Hide();
+        }
     }
 }
