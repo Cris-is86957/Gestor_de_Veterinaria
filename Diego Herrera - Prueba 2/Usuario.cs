@@ -17,7 +17,7 @@ namespace Diego_Herrera___Prueba_2
         public Usuario()
         {
             this.Agenda = new HashSet<Agenda>();
-            this.Ventas = new HashSet<Ventas>();
+            this.Boleta = new HashSet<Boleta>();
         }
     
         public string Rut_Usuario { get; set; }
@@ -28,6 +28,6 @@ namespace Diego_Herrera___Prueba_2
         public string rol_usuario { get; set; }
     
         public virtual ICollection<Agenda> Agenda { get; set; }
-        public virtual ICollection<Ventas> Ventas { get; set; }
+        public virtual ICollection<Boleta> Boleta { get; set; }
     }
 }

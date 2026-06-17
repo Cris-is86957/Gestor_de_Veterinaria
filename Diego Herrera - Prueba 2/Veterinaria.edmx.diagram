@@ -4,18 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bb0917fd79274716a0792bbfa673450a" Name="Diagram1">
+      <Diagram DiagramId="bb0917fd79274716a0792bbfa673450a" Name="Diagram1" ZoomLevel="46">
         <EntityTypeShape EntityType="VeterinariaModel.Agenda" Width="1.5" PointX="6" PointY="2.75" />
         <EntityTypeShape EntityType="VeterinariaModel.Dueño" Width="1.5" PointX="1.5" PointY="7.875" />
         <EntityTypeShape EntityType="VeterinariaModel.Mascota" Width="1.5" PointX="3.75" PointY="7.625" />
-        <EntityTypeShape EntityType="VeterinariaModel.Productos" Width="1.5" PointX="0.75" PointY="10.875" />
+        <EntityTypeShape EntityType="VeterinariaModel.Productos" Width="1.5" PointX="7.625" PointY="7" />
         <EntityTypeShape EntityType="VeterinariaModel.Usuario" Width="1.5" PointX="0.75" PointY="2.75" />
-        <EntityTypeShape EntityType="VeterinariaModel.Ventas" Width="1.5" PointX="3" PointY="2.625" />
         <AssociationConnector Association="VeterinariaModel.FK_Mascota_Agenda" />
         <AssociationConnector Association="VeterinariaModel.FK_Usuario_Agenda" />
         <AssociationConnector Association="VeterinariaModel.FK_Dueño_Mascota" />
+        <EntityTypeShape EntityType="VeterinariaModel.Boleta" Width="1.5" PointX="2.875" PointY="0.5" />
+        <AssociationConnector Association="VeterinariaModel.FK_Usuario_Boleta" />
+        <EntityTypeShape EntityType="VeterinariaModel.Ventas" Width="1.5" PointX="3.75" PointY="3.125" />
+        <AssociationConnector Association="VeterinariaModel.FK_Boleta_Ventas" />
         <AssociationConnector Association="VeterinariaModel.FK_Productos_Ventas" />
-        <AssociationConnector Association="VeterinariaModel.FK_Usuario_Ventas" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

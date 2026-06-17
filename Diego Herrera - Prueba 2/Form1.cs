@@ -187,5 +187,12 @@ namespace Diego_Herrera___Prueba_2
             formAgenda.Show();
             this.Hide();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            FormsVentas formVentas = new FormsVentas(rolGuardado, rutGuardado);
+            formVentas.Show();
+            this.Hide();
+        }
     }
 }

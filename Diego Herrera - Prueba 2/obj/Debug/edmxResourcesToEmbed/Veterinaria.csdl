@@ -6,7 +6,6 @@
     <EntitySet Name="Mascota" EntityType="VeterinariaModel.Mascota" />
     <EntitySet Name="Productos" EntityType="VeterinariaModel.Productos" />
     <EntitySet Name="Usuario" EntityType="VeterinariaModel.Usuario" />
-    <EntitySet Name="Ventas" EntityType="VeterinariaModel.Ventas" />
     <AssociationSet Name="FK_Mascota_Agenda" Association="VeterinariaModel.FK_Mascota_Agenda">
       <End Role="Mascota" EntitySet="Mascota" />
       <End Role="Agenda" EntitySet="Agenda" />
@@ -19,12 +18,18 @@
       <End Role="Dueño" EntitySet="Dueño" />
       <End Role="Mascota" EntitySet="Mascota" />
     </AssociationSet>
-    <AssociationSet Name="FK_Productos_Ventas" Association="VeterinariaModel.FK_Productos_Ventas">
-      <End Role="Productos" EntitySet="Productos" />
+    <EntitySet Name="Boleta" EntityType="VeterinariaModel.Boleta" />
+    <AssociationSet Name="FK_Usuario_Boleta" Association="VeterinariaModel.FK_Usuario_Boleta">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Boleta" EntitySet="Boleta" />
+    </AssociationSet>
+    <EntitySet Name="Ventas" EntityType="VeterinariaModel.Ventas" />
+    <AssociationSet Name="FK_Boleta_Ventas" Association="VeterinariaModel.FK_Boleta_Ventas">
+      <End Role="Boleta" EntitySet="Boleta" />
       <End Role="Ventas" EntitySet="Ventas" />
     </AssociationSet>
-    <AssociationSet Name="FK_Usuario_Ventas" Association="VeterinariaModel.FK_Usuario_Ventas">
-      <End Role="Usuario" EntitySet="Usuario" />
+    <AssociationSet Name="FK_Productos_Ventas" Association="VeterinariaModel.FK_Productos_Ventas">
+      <End Role="Productos" EntitySet="Productos" />
       <End Role="Ventas" EntitySet="Ventas" />
     </AssociationSet>
   </EntityContainer>
@@ -86,24 +91,8 @@
     <Property Name="apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Agenda" Relationship="VeterinariaModel.FK_Usuario_Agenda" FromRole="Usuario" ToRole="Agenda" />
-    <NavigationProperty Name="Ventas" Relationship="VeterinariaModel.FK_Usuario_Ventas" FromRole="Usuario" ToRole="Ventas" />
     <Property Name="rol_usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="Ventas">
-    <Key>
-      <PropertyRef Name="ID_Venta" />
-      <PropertyRef Name="Rut_Usuario" />
-      <PropertyRef Name="ID_Producto" />
-      <PropertyRef Name="Fecha_hora" />
-    </Key>
-    <Property Name="ID_Venta" Type="Int32" Nullable="false" />
-    <Property Name="Rut_Usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="ID_Producto" Type="Int32" Nullable="false" />
-    <Property Name="Fecha_hora" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="Cantidad" Type="Int32" Nullable="false" />
-    <Property Name="Precio_Unidad" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Productos" Relationship="VeterinariaModel.FK_Productos_Ventas" FromRole="Ventas" ToRole="Productos" />
-    <NavigationProperty Name="Usuario" Relationship="VeterinariaModel.FK_Usuario_Ventas" FromRole="Ventas" ToRole="Usuario" />
+    <NavigationProperty Name="Boleta" Relationship="VeterinariaModel.FK_Usuario_Boleta" FromRole="Usuario" ToRole="Boleta" />
   </EntityType>
   <Association Name="FK_Mascota_Agenda">
     <End Type="VeterinariaModel.Mascota" Role="Mascota" Multiplicity="1" />
@@ -141,6 +130,53 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Boleta">
+    <Key>
+      <PropertyRef Name="ID_Venta" />
+    </Key>
+    <Property Name="ID_Venta" Type="Int32" Nullable="false" />
+    <Property Name="Rut_Usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Total_Venta" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Usuario" Relationship="VeterinariaModel.FK_Usuario_Boleta" FromRole="Boleta" ToRole="Usuario" />
+    <NavigationProperty Name="Ventas" Relationship="VeterinariaModel.FK_Boleta_Ventas" FromRole="Boleta" ToRole="Ventas" />
+  </EntityType>
+  <Association Name="FK_Usuario_Boleta">
+    <End Type="VeterinariaModel.Usuario" Role="Usuario" Multiplicity="1" />
+    <End Type="VeterinariaModel.Boleta" Role="Boleta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Rut_Usuario" />
+      </Principal>
+      <Dependent Role="Boleta">
+        <PropertyRef Name="Rut_Usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="ID_Venta" />
+      <PropertyRef Name="ID_Producto" />
+    </Key>
+    <Property Name="ID_Venta" Type="Int32" Nullable="false" />
+    <Property Name="ID_Producto" Type="Int32" Nullable="false" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+    <Property Name="Precio_Unidad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Boleta" Relationship="VeterinariaModel.FK_Boleta_Ventas" FromRole="Ventas" ToRole="Boleta" />
+    <NavigationProperty Name="Productos" Relationship="VeterinariaModel.FK_Productos_Ventas" FromRole="Ventas" ToRole="Productos" />
+  </EntityType>
+  <Association Name="FK_Boleta_Ventas">
+    <End Type="VeterinariaModel.Boleta" Role="Boleta" Multiplicity="1" />
+    <End Type="VeterinariaModel.Ventas" Role="Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Boleta">
+        <PropertyRef Name="ID_Venta" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="ID_Venta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Productos_Ventas">
     <End Type="VeterinariaModel.Productos" Role="Productos" Multiplicity="1" />
     <End Type="VeterinariaModel.Ventas" Role="Ventas" Multiplicity="*" />
@@ -150,18 +186,6 @@
       </Principal>
       <Dependent Role="Ventas">
         <PropertyRef Name="ID_Producto" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Usuario_Ventas">
-    <End Type="VeterinariaModel.Usuario" Role="Usuario" Multiplicity="1" />
-    <End Type="VeterinariaModel.Ventas" Role="Ventas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Rut_Usuario" />
-      </Principal>
-      <Dependent Role="Ventas">
-        <PropertyRef Name="Rut_Usuario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

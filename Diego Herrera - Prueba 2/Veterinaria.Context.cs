@@ -30,6 +30,7 @@ namespace Diego_Herrera___Prueba_2
         public DbSet<Mascota> Mascota { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Boleta> Boleta { get; set; }
         public DbSet<Ventas> Ventas { get; set; }
     }
 }

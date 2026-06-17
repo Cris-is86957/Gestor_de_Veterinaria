@@ -59,14 +59,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Boleta">
+      <EntityTypeMapping TypeName="VeterinariaModel.Boleta">
+        <MappingFragment StoreEntitySet="Boleta">
+          <ScalarProperty Name="Total_Venta" ColumnName="Total_Venta" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="Rut_Usuario" ColumnName="Rut_Usuario" />
+          <ScalarProperty Name="ID_Venta" ColumnName="ID_Venta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Ventas">
       <EntityTypeMapping TypeName="VeterinariaModel.Ventas">
         <MappingFragment StoreEntitySet="Ventas">
           <ScalarProperty Name="Precio_Unidad" ColumnName="Precio_Unidad" />
           <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-          <ScalarProperty Name="Fecha_hora" ColumnName="Fecha_hora" />
           <ScalarProperty Name="ID_Producto" ColumnName="ID_Producto" />
-          <ScalarProperty Name="Rut_Usuario" ColumnName="Rut_Usuario" />
           <ScalarProperty Name="ID_Venta" ColumnName="ID_Venta" />
         </MappingFragment>
       </EntityTypeMapping>

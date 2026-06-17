@@ -12,14 +12,19 @@ namespace Diego_Herrera___Prueba_2
     using System;
     using System.Collections.Generic;
     
-    public partial class Ventas
+    public partial class Boleta
     {
-        public int ID_Venta { get; set; }
-        public int ID_Producto { get; set; }
-        public int Cantidad { get; set; }
-        public int Precio_Unidad { get; set; }
+        public Boleta()
+        {
+            this.Ventas = new HashSet<Ventas>();
+        }
     
-        public virtual Boleta Boleta { get; set; }
-        public virtual Productos Productos { get; set; }
+        public int ID_Venta { get; set; }
+        public string Rut_Usuario { get; set; }
+        public System.DateTime fecha { get; set; }
+        public int Total_Venta { get; set; }
+    
+        public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Ventas> Ventas { get; set; }
     }
 }

@@ -10,6 +10,15 @@
     <Property Name="fecha" Type="date" Nullable="false" />
     <Property Name="hora" Type="time" Precision="7" Nullable="false" />
   </EntityType>
+  <EntityType Name="Boleta">
+    <Key>
+      <PropertyRef Name="ID_Venta" />
+    </Key>
+    <Property Name="ID_Venta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rut_Usuario" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="Total_Venta" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Dueño">
     <Key>
       <PropertyRef Name="Rut_dueño" />
@@ -56,17 +65,25 @@
   <EntityType Name="Ventas">
     <Key>
       <PropertyRef Name="ID_Venta" />
-      <PropertyRef Name="Rut_Usuario" />
       <PropertyRef Name="ID_Producto" />
-      <PropertyRef Name="Fecha_hora" />
     </Key>
     <Property Name="ID_Venta" Type="int" Nullable="false" />
-    <Property Name="Rut_Usuario" Type="nchar" MaxLength="10" Nullable="false" />
     <Property Name="ID_Producto" Type="int" Nullable="false" />
-    <Property Name="Fecha_hora" Type="datetime" Nullable="false" />
     <Property Name="Cantidad" Type="int" Nullable="false" />
     <Property Name="Precio_Unidad" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK_Boleta_Ventas">
+    <End Role="Boleta" Type="Self.Boleta" Multiplicity="1" />
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Boleta">
+        <PropertyRef Name="ID_Venta" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="ID_Venta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Dueño_Mascota">
     <End Role="Dueño" Type="Self.Dueño" Multiplicity="1" />
     <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
@@ -115,25 +132,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Usuario_Ventas">
+  <Association Name="FK_Usuario_Boleta">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-    <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+    <End Role="Boleta" Type="Self.Boleta" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Usuario">
         <PropertyRef Name="Rut_Usuario" />
       </Principal>
-      <Dependent Role="Ventas">
+      <Dependent Role="Boleta">
         <PropertyRef Name="Rut_Usuario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="VeterinariaModelStoreContainer">
     <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Boleta" EntityType="Self.Boleta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Dueño" EntityType="Self.Dueño" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Mascota" EntityType="Self.Mascota" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Boleta_Ventas" Association="Self.FK_Boleta_Ventas">
+      <End Role="Boleta" EntitySet="Boleta" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
     <AssociationSet Name="FK_Dueño_Mascota" Association="Self.FK_Dueño_Mascota">
       <End Role="Dueño" EntitySet="Dueño" />
       <End Role="Mascota" EntitySet="Mascota" />
@@ -150,9 +172,9 @@
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Agenda" EntitySet="Agenda" />
     </AssociationSet>
-    <AssociationSet Name="FK_Usuario_Ventas" Association="Self.FK_Usuario_Ventas">
+    <AssociationSet Name="FK_Usuario_Boleta" Association="Self.FK_Usuario_Boleta">
       <End Role="Usuario" EntitySet="Usuario" />
-      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="Boleta" EntitySet="Boleta" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

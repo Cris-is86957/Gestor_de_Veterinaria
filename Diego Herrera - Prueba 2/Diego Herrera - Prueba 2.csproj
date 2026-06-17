@@ -56,6 +56,9 @@
     <Compile Include="Agenda.cs">
       <DependentUpon>Veterinaria.tt</DependentUpon>
     </Compile>
+    <Compile Include="Boleta.cs">
+      <DependentUpon>Veterinaria.tt</DependentUpon>
+    </Compile>
     <Compile Include="Dueño.cs">
       <DependentUpon>Veterinaria.tt</DependentUpon>
     </Compile>
@@ -76,6 +79,12 @@
     </Compile>
     <Compile Include="FormsAgendar.Designer.cs">
       <DependentUpon>FormsAgendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormsVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormsVentas.Designer.cs">
+      <DependentUpon>FormsVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="IngresoMascota.cs">
       <SubType>Form</SubType>
@@ -138,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormsAgendar.resx">
       <DependentUpon>FormsAgendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormsVentas.resx">
+      <DependentUpon>FormsVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IngresoMascota.resx">
       <DependentUpon>IngresoMascota.cs</DependentUpon>
