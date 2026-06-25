@@ -99,6 +99,14 @@ namespace Diego_Herrera___Prueba_2
                 // Se extrae únicamente la parte de la fecha del control correspondiente.
                 DateTime fechaCita = dateTimePicker1.Value.Date;
 
+                // --- NUEVA VALIDACIÓN: BLOQUEAR DOMINGOS ---
+                if (fechaCita.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    MessageBox.Show("La clínica no atiende los días domingo. Por favor, seleccione un día de lunes a sábado.", "Día no válido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+                // -------------------------------------------
+
                 // Se extrae la hora seleccionada, omitiendo los segundos para asegurar comparaciones exactas en la base de datos.
                 TimeSpan horaExacta = new TimeSpan(dateTimePicker2.Value.TimeOfDay.Hours, dateTimePicker2.Value.TimeOfDay.Minutes, 0);
 
@@ -156,8 +164,6 @@ namespace Diego_Herrera___Prueba_2
                 // Muestra advertencia indicando que es obligatorio seleccionar un registro base para proceder.
                 MessageBox.Show("Debe seleccionar una mascota de la tabla superior para agendar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
-
         }
 
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -242,75 +248,81 @@ namespace Diego_Herrera___Prueba_2
         }
         private void modificarHora()
         {
+            // Se valida que exista un identificador de cita previamente seleccionado en la interfaz.
+            if (idCitaSeleccionada != 0)
             {
-                // Se valida que exista un identificador de cita previamente seleccionado en la interfaz.
-                if (idCitaSeleccionada != 0)
+                // Se extrae la nueva fecha a asignar desde el control correspondiente.
+                DateTime fechaCita = dateTimePicker1.Value.Date;
+
+                // --- NUEVA VALIDACIÓN: BLOQUEAR DOMINGOS AL MODIFICAR ---
+                if (fechaCita.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    // Se extrae la nueva fecha a asignar desde el control correspondiente.
-                    DateTime fechaCita = dateTimePicker1.Value.Date;
+                    MessageBox.Show("La clínica no atiende los días domingo. Por favor, seleccione un día de lunes a sábado.", "Día no válido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+                // --------------------------------------------------------
 
-                    // Se extrae la nueva hora seleccionada, omitiendo los segundos para asegurar comparaciones exactas en la base de datos.
-                    TimeSpan horaExacta = new TimeSpan(dateTimePicker2.Value.TimeOfDay.Hours, dateTimePicker2.Value.TimeOfDay.Minutes, 0);
+                // Se extrae la nueva hora seleccionada, omitiendo los segundos para asegurar comparaciones exactas en la base de datos.
+                TimeSpan horaExacta = new TimeSpan(dateTimePicker2.Value.TimeOfDay.Hours, dateTimePicker2.Value.TimeOfDay.Minutes, 0);
 
-                    // Se definen los límites del horario operativo permitido por las reglas del negocio.
-                    TimeSpan horaApertura = new TimeSpan(9, 0, 0);
-                    TimeSpan horaCierre = new TimeSpan(18, 0, 0);
+                // Se definen los límites del horario operativo permitido por las reglas del negocio.
+                TimeSpan horaApertura = new TimeSpan(9, 0, 0);
+                TimeSpan horaCierre = new TimeSpan(18, 0, 0);
 
-                    // Se verifica que la hora solicitada se encuentre dentro del rango de atención establecido.
-                    if (horaExacta < horaApertura || horaExacta > horaCierre)
+                // Se verifica que la hora solicitada se encuentre dentro del rango de atención establecido.
+                if (horaExacta < horaApertura || horaExacta > horaCierre)
+                {
+                    // Se interrumpe la ejecución si el horario se encuentra fuera de los límites.
+                    MessageBox.Show("La clínica solo atiende entre las 09:00 y las 18:00 hrs.", "Fuera de horario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                // Se inicializa el contexto de la base de datos para la transacción.
+                using (VeterinariaEntities bd = new VeterinariaEntities())
+                {
+                    // Se consulta la disponibilidad del horario, excluyendo el registro de la cita actual para evitar que colisione consigo misma si solo se modifica la fecha.
+                    bool horaOcupada = bd.Agenda.Any(c => c.fecha == fechaCita && c.hora == horaExacta && c.ID_Cita != idCitaSeleccionada);
+                    if (horaOcupada)
                     {
-                        // Se interrumpe la ejecución si el horario se encuentra fuera de los límites.
-                        MessageBox.Show("La clínica solo atiende entre las 09:00 y las 18:00 hrs.", "Fuera de horario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        // Se interrumpe la operación si el bloque horario ya está asignado a otro registro.
+                        MessageBox.Show("Ese horario ya está reservado por otra mascota. Seleccione otro.", "Hora no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // Se inicializa el contexto de la base de datos para la transacción.
-                    using (VeterinariaEntities bd = new VeterinariaEntities())
+                    // Se realiza la búsqueda del registro a modificar mediante su clave primaria.
+                    var citaAModificar = bd.Agenda.Find(idCitaSeleccionada);
+
+                    // Se comprueba que el registro exista en la base de datos antes de proceder.
+                    if (citaAModificar != null)
                     {
-                        // Se consulta la disponibilidad del horario, excluyendo el registro de la cita actual para evitar que colisione consigo misma si solo se modifica la fecha.
-                        bool horaOcupada = bd.Agenda.Any(c => c.fecha == fechaCita && c.hora == horaExacta && c.ID_Cita != idCitaSeleccionada);
-                        if (horaOcupada)
+                        try
                         {
-                            // Se interrumpe la operación si el bloque horario ya está asignado a otro registro.
-                            MessageBox.Show("Ese horario ya está reservado por otra mascota. Seleccione otro.", "Hora no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
+                            // Se sobrescriben las propiedades del registro con los nuevos valores validados.
+                            citaAModificar.fecha = fechaCita;
+                            citaAModificar.hora = horaExacta;
+
+                            // Se ejecutan y confirman los cambios físicos en la tabla correspondiente.
+                            bd.SaveChanges();
+
+                            // Se refresca la grilla visual para mostrar los datos actualizados.
+                            Actualizar_Datos();
+                            // Se restablecen los controles de la interfaz a su estado predeterminado.
+                            Limpiar_Datos();
+                            // Notifica la finalización exitosa del proceso de modificación.
+                            MessageBox.Show("Cita modificada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-
-                        // Se realiza la búsqueda del registro a modificar mediante su clave primaria.
-                        var citaAModificar = bd.Agenda.Find(idCitaSeleccionada);
-
-                        // Se comprueba que el registro exista en la base de datos antes de proceder.
-                        if (citaAModificar != null)
+                        catch (Exception ex)
                         {
-                            try
-                            {
-                                // Se sobrescriben las propiedades del registro con los nuevos valores validados.
-                                citaAModificar.fecha = fechaCita;
-                                citaAModificar.hora = horaExacta;
-
-                                // Se ejecutan y confirman los cambios físicos en la tabla correspondiente.
-                                bd.SaveChanges();
-
-                                // Se refresca la grilla visual para mostrar los datos actualizados.
-                                Actualizar_Datos();
-                                // Se restablecen los controles de la interfaz a su estado predeterminado.
-                                Limpiar_Datos();
-                                // Notifica la finalización exitosa del proceso de modificación.
-                                MessageBox.Show("Cita modificada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch (Exception ex)
-                            {
-                                // Intercepta excepciones durante el proceso de guardado y expone el mensaje técnico del error.
-                                MessageBox.Show("Error al modificar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
+                            // Intercepta excepciones durante el proceso de guardado y expone el mensaje técnico del error.
+                            MessageBox.Show("Error al modificar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
-                else
-                {
-                    // Muestra advertencia indicando que es obligatorio seleccionar un registro de la tabla para proceder con la modificación.
-                    MessageBox.Show("Selecciona una cita de la tabla de Agenda para modificar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+            }
+            else
+            {
+                // Muestra advertencia indicando que es obligatorio seleccionar un registro de la tabla para proceder con la modificación.
+                MessageBox.Show("Selecciona una cita de la tabla de Agenda para modificar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

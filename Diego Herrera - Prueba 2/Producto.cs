@@ -164,15 +164,27 @@ namespace Diego_Herrera___Prueba_2
                     // Se comprueba que la búsqueda haya devuelto un resultado válido (que el producto realmente exista en la base de datos).
                     if (nuevoProducto != null)
                     {
-                        // Se marca el objeto recuperado para ser eliminado de forma lógica en el contexto de Entity Framework.
-                        bd.Productos.Remove(nuevoProducto);
-                        // Se ejecutan y aplican los cambios físicamente en el servidor SQL (instrucción DELETE).
-                        bd.SaveChanges();
+                        try
+                        {
+                            // Se marca el objeto recuperado para ser eliminado en el contexto de Entity Framework.
+                            bd.Productos.Remove(nuevoProducto);
+                            // Se ejecutan y aplican los cambios físicamente en el servidor SQL (instrucción DELETE).
+                            bd.SaveChanges();
 
-                        // Se recarga la tabla visual del catálogo para reflejar la eliminación del artículo.
-                        Actualizar_Datos();
-                        // Se restablecen los controles de texto de la interfaz a su estado original (vacíos).
-                        Limpiar_Datos();
+                            // Se recarga la tabla visual del catálogo para reflejar la eliminación del artículo.
+                            Actualizar_Datos();
+                            // Se restablecen los controles de texto de la interfaz a su estado original (vacíos).
+                            Limpiar_Datos();
+
+                            // Se notifica al operador que la eliminación se realizó de manera exitosa.
+                            MessageBox.Show("Producto eliminado del sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception)
+                        {
+                            // Captura la excepción de SQL Server cuando se viola la Integridad Referencial debido a que el producto posee registros enlazados.
+                            // Esto evita el colapso de la aplicación y le entrega una alternativa operacional segura al usuario.
+                            MessageBox.Show("No se puede eliminar este producto porque ya tiene ventas registradas en el historial. Por favor, cambie su estado a 'Inactivo'.", "Acción bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        }
                     }
                 }
             }
