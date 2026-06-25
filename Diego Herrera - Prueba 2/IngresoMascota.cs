@@ -48,6 +48,7 @@ namespace Diego_Herrera___Prueba_2
                 dataGridView1.DataSource = query.ToList();
                 dataGridView1.Refresh();
                 var queryDueños = from miDueño in bd.Dueño
+                                  where miDueño.Estado_Dueño == "Activo"
                                   select new
                                   {
                                       miDueño.Rut_dueño,

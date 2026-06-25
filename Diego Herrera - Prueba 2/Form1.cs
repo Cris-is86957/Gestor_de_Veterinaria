@@ -60,10 +60,7 @@ namespace Diego_Herrera___Prueba_2
             this.Hide();
         }
 
-        private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
 
-        }
 
 
 
