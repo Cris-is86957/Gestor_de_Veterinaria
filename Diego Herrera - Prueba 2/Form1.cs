@@ -37,7 +37,7 @@ namespace Diego_Herrera___Prueba_2
 
 
 
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -94,6 +94,17 @@ namespace Diego_Herrera___Prueba_2
             FormsVentas formVentas = new FormsVentas(rolGuardado, rutGuardado);
             formVentas.Show();
             this.Hide();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {// Mostramos un mensaje preguntando si realmente desea salir
+            DialogResult respuesta = MessageBox.Show("¿Está seguro que desea salir del sistema?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Evaluamos lo que respondió
+            if (respuesta == DialogResult.Yes)
+            {
+                System.Windows.Forms.Application.Exit();
+            }
         }
     }
 }

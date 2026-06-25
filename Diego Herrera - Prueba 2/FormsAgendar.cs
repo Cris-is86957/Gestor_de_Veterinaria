@@ -17,6 +17,7 @@ namespace Diego_Herrera___Prueba_2
         private string rolGuardado;
         private string rutGuardado;
         private int idCitaSeleccionada = 0;
+        private string rutVeterinarioSeleccionado = "";
         public FormsAgendar(string rolDelUsuario, string rutDelUsuario)
         {
             InitializeComponent();
@@ -32,9 +33,11 @@ namespace Diego_Herrera___Prueba_2
         }
         private void Actualizar_Datos()
         {
+            // Se inicializa el contexto de la base de datos mediante Entity Framework.
             using (VeterinariaEntities bd = new VeterinariaEntities())
             {
-
+                // 1. CARGA DE MASCOTAS
+                // Se proyectan los datos del inventario de pacientes (mascotas).
                 var queryMascotas = from miMascota in bd.Mascota
                                     select new
                                     {
@@ -47,16 +50,28 @@ namespace Diego_Herrera___Prueba_2
                 dataGridView1.DataSource = queryMascotas.ToList();
                 dataGridView1.Refresh();
 
+                // 2. CARGA DE VETERINARIOS
+                // Se filtra la tabla de usuarios para aislar únicamente a los que poseen el rol operativo de "Veterinario".
+                var queryVeterinarios = from v in bd.Usuario
+                                        where v.rol_usuario.ToLower() == "veterinario" && v.Estado_Usuario == "Activo"
+                                        select new
+                                        {
+                                            Rut_Veterinario = v.Rut_Usuario,
+                                            Nombre = v.nombre,
+                                            Apellido = v.apellido
+                                        };
+                dataGridView3.DataSource = queryVeterinarios.ToList();
+                dataGridView3.Refresh();
 
+                // 3. CARGA DE AGENDA
+                // Se proyectan las citas agendadas, concatenando nombre y apellido del doctor mediante llaves foráneas.
                 var queryAgenda = from miCita in bd.Agenda
                                   select new
                                   {
                                       miCita.ID_Cita,
                                       Fecha = miCita.fecha,
                                       Hora = miCita.hora,
-                                      miCita.Rut_Usuario,
-
-
+                                      Veterinario = miCita.Usuario.nombre + " " + miCita.Usuario.apellido,
                                       Nombre_Mascota = miCita.Mascota.Nombre
                                   };
                 dataGridView2.DataSource = queryAgenda.ToList();
@@ -65,12 +80,13 @@ namespace Diego_Herrera___Prueba_2
         }
         private void Limpiar_Datos()
         {
+            // Se restablecen los controles de texto y variables internas a su estado predeterminado.
             textBox1.Text = string.Empty;
+            textBox2.Text = string.Empty;
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker2.Value = DateTime.Now;
             idCitaSeleccionada = 0;
-
-
+            rutVeterinarioSeleccionado = "";
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -86,35 +102,41 @@ namespace Diego_Herrera___Prueba_2
         }
         private void registrarHora()
         {
-            // Se verifica que el campo del ID contenga información antes de procesar.
+            // Se valida la existencia de información en los campos obligatorios de selección.
             if (textBox1.Text != string.Empty)
             {
-                // Se intenta convertir el texto a número entero; si falla, aborta para evitar excepciones de formato.
+                // Se valida que el operador haya seleccionado a un especialista de la tabla correspondiente.
+                if (rutVeterinarioSeleccionado == "")
+                {
+                    MessageBox.Show("Debe seleccionar un Veterinario de la tabla correspondiente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                // Se intenta parsear el identificador de la mascota para prevenir excepciones de tipo de dato.
                 if (!int.TryParse(textBox1.Text, out int idMascota))
                 {
                     MessageBox.Show("El ID de la mascota debe ser un número.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Se extrae únicamente la parte de la fecha del control correspondiente.
+                // Se extrae la fecha desde la interfaz, fijando el componente temporal a las 00:00:00.
                 DateTime fechaCita = dateTimePicker1.Value.Date;
 
-                // --- NUEVA VALIDACIÓN: BLOQUEAR DOMINGOS ---
+                // Validación de restricción de días operativos (bloqueo dominical).
                 if (fechaCita.DayOfWeek == DayOfWeek.Sunday)
                 {
                     MessageBox.Show("La clínica no atiende los días domingo. Por favor, seleccione un día de lunes a sábado.", "Día no válido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                // -------------------------------------------
 
-                // Se extrae la hora seleccionada, omitiendo los segundos para asegurar comparaciones exactas en la base de datos.
+                // Se extrae la hora descartando los segundos para realizar comparaciones precisas en SQL.
                 TimeSpan horaExacta = new TimeSpan(dateTimePicker2.Value.TimeOfDay.Hours, dateTimePicker2.Value.TimeOfDay.Minutes, 0);
 
-                // Se definen los límites del horario operativo del negocio.
+                // Se definen las constantes de la jornada laboral establecida por la clínica.
                 TimeSpan horaApertura = new TimeSpan(9, 0, 0);  // 09:00 AM
                 TimeSpan horaCierre = new TimeSpan(18, 0, 0);   // 06:00 PM
 
-                // Se valida que la hora exacta se encuentre dentro del rango permitido por las reglas del negocio.
+                // Se verifica la concordancia de la hora solicitada con la jornada laboral.
                 if (horaExacta < horaApertura || horaExacta > horaCierre)
                 {
                     MessageBox.Show("La clínica solo atiende entre las 09:00 y las 18:00 hrs.", "Fuera de horario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -123,45 +145,46 @@ namespace Diego_Herrera___Prueba_2
 
                 try
                 {
-                    // Se inicializa el contexto de la base de datos.
                     using (VeterinariaEntities bd = new VeterinariaEntities())
                     {
-                        // Se verifica en la base de datos si ya existe una cita registrada para esa misma fecha y hora.
-                        bool horaOcupada = bd.Agenda.Any(c => c.fecha == fechaCita && c.hora == horaExacta);
+                        // Se delimita el rango temporal de protección (1 hora) calculando 59 minutos en ambas direcciones.
+                        TimeSpan rangoInicio = horaExacta.Subtract(TimeSpan.FromMinutes(59));
+                        TimeSpan rangoFin = horaExacta.Add(TimeSpan.FromMinutes(59));
+
+                        // Se consulta la existencia de colisiones temporales en la base de datos para el mismo veterinario.
+                        bool horaOcupada = bd.Agenda.Any(c => c.Rut_Usuario == rutVeterinarioSeleccionado && c.fecha == fechaCita && c.hora >= rangoInicio && c.hora <= rangoFin);
+
                         if (horaOcupada)
                         {
-                            // Detiene la ejecución si el bloque de tiempo ya se encuentra asignado.
-                            MessageBox.Show("Ese horario ya está reservado. Por favor, seleccione otra hora o fecha.", "Hora no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("El veterinario seleccionado ya tiene una cita agendada en ese rango horario. Cada cita dura 1 hora. Por favor, seleccione otro horario u otro doctor.", "Hora no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 
-                        // Se instancia el nuevo objeto de cita y se mapean las propiedades con los datos validados.
+                        // Se instancia y se mapea la nueva entidad correspondiente a la cita.
                         Agenda nuevaCita = new Agenda();
                         nuevaCita.ID_Mascota = idMascota;
-                        nuevaCita.Rut_Usuario = rutGuardado; // Asigna la cita al usuario actualmente autenticado en el sistema.
+                        nuevaCita.Rut_Usuario = rutVeterinarioSeleccionado; // Se vincula la cita directamente al identificador del doctor.
                         nuevaCita.fecha = fechaCita;
                         nuevaCita.hora = horaExacta;
 
-                        // Se añade el registro al contexto y se impacta físicamente la base de datos.
+                        // Se persiste la nueva entidad en el servidor relacional.
                         bd.Agenda.Add(nuevaCita);
                         bd.SaveChanges();
 
-                        // Se refrescan las tablas visuales y se restablecen los valores de los controles.
+                        // Se sincroniza la vista de datos y se depuran los campos de entrada.
                         Actualizar_Datos();
                         Limpiar_Datos();
-                        // Confirma la operación exitosa.
                         MessageBox.Show("Cita agendada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Intercepta errores de conexión o escritura y expone el detalle del fallo.
+                    // Se interceptan fallas a nivel de proveedor de datos y se informa el origen.
                     MessageBox.Show("Ocurrió un error al guardar: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                // Muestra advertencia indicando que es obligatorio seleccionar un registro base para proceder.
                 MessageBox.Show("Debe seleccionar una mascota de la tabla superior para agendar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
@@ -248,72 +271,68 @@ namespace Diego_Herrera___Prueba_2
         }
         private void modificarHora()
         {
-            // Se valida que exista un identificador de cita previamente seleccionado en la interfaz.
             if (idCitaSeleccionada != 0)
             {
-                // Se extrae la nueva fecha a asignar desde el control correspondiente.
+                // Se fuerza la selección de un veterinario antes de reprogramar la hora para mantener la integridad de la asignación.
+                if (rutVeterinarioSeleccionado == "")
+                {
+                    MessageBox.Show("Debe seleccionar un Veterinario de la tabla correspondiente para modificar la cita.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
                 DateTime fechaCita = dateTimePicker1.Value.Date;
 
-                // --- NUEVA VALIDACIÓN: BLOQUEAR DOMINGOS AL MODIFICAR ---
+                // Validación dominical aplicada al proceso de reprogramación.
                 if (fechaCita.DayOfWeek == DayOfWeek.Sunday)
                 {
                     MessageBox.Show("La clínica no atiende los días domingo. Por favor, seleccione un día de lunes a sábado.", "Día no válido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                // --------------------------------------------------------
 
-                // Se extrae la nueva hora seleccionada, omitiendo los segundos para asegurar comparaciones exactas en la base de datos.
                 TimeSpan horaExacta = new TimeSpan(dateTimePicker2.Value.TimeOfDay.Hours, dateTimePicker2.Value.TimeOfDay.Minutes, 0);
 
-                // Se definen los límites del horario operativo permitido por las reglas del negocio.
                 TimeSpan horaApertura = new TimeSpan(9, 0, 0);
                 TimeSpan horaCierre = new TimeSpan(18, 0, 0);
 
-                // Se verifica que la hora solicitada se encuentre dentro del rango de atención establecido.
                 if (horaExacta < horaApertura || horaExacta > horaCierre)
                 {
-                    // Se interrumpe la ejecución si el horario se encuentra fuera de los límites.
                     MessageBox.Show("La clínica solo atiende entre las 09:00 y las 18:00 hrs.", "Fuera de horario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
-                // Se inicializa el contexto de la base de datos para la transacción.
                 using (VeterinariaEntities bd = new VeterinariaEntities())
                 {
-                    // Se consulta la disponibilidad del horario, excluyendo el registro de la cita actual para evitar que colisione consigo misma si solo se modifica la fecha.
-                    bool horaOcupada = bd.Agenda.Any(c => c.fecha == fechaCita && c.hora == horaExacta && c.ID_Cita != idCitaSeleccionada);
+                    TimeSpan rangoInicio = horaExacta.Subtract(TimeSpan.FromMinutes(59));
+                    TimeSpan rangoFin = horaExacta.Add(TimeSpan.FromMinutes(59));
+
+                    // Se verifica el conflicto de horario excluyendo la propia instancia de la cita para permitir su modificación.
+                    bool horaOcupada = bd.Agenda.Any(c => c.Rut_Usuario == rutVeterinarioSeleccionado && c.fecha == fechaCita && c.hora >= rangoInicio && c.hora <= rangoFin && c.ID_Cita != idCitaSeleccionada);
+
                     if (horaOcupada)
                     {
-                        // Se interrumpe la operación si el bloque horario ya está asignado a otro registro.
-                        MessageBox.Show("Ese horario ya está reservado por otra mascota. Seleccione otro.", "Hora no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("El veterinario ya tiene asignado ese bloque horario. Seleccione otro.", "Hora no disponible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // Se realiza la búsqueda del registro a modificar mediante su clave primaria.
                     var citaAModificar = bd.Agenda.Find(idCitaSeleccionada);
 
-                    // Se comprueba que el registro exista en la base de datos antes de proceder.
                     if (citaAModificar != null)
                     {
                         try
                         {
-                            // Se sobrescriben las propiedades del registro con los nuevos valores validados.
+                            // Se aplican las mutaciones a las propiedades de la entidad seleccionada.
                             citaAModificar.fecha = fechaCita;
                             citaAModificar.hora = horaExacta;
+                            citaAModificar.Rut_Usuario = rutVeterinarioSeleccionado; // Permite transferir la cita a un médico diferente.
 
-                            // Se ejecutan y confirman los cambios físicos en la tabla correspondiente.
                             bd.SaveChanges();
 
-                            // Se refresca la grilla visual para mostrar los datos actualizados.
                             Actualizar_Datos();
-                            // Se restablecen los controles de la interfaz a su estado predeterminado.
                             Limpiar_Datos();
-                            // Notifica la finalización exitosa del proceso de modificación.
                             MessageBox.Show("Cita modificada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception ex)
                         {
-                            // Intercepta excepciones durante el proceso de guardado y expone el mensaje técnico del error.
                             MessageBox.Show("Error al modificar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
@@ -321,8 +340,26 @@ namespace Diego_Herrera___Prueba_2
             }
             else
             {
-                // Muestra advertencia indicando que es obligatorio seleccionar un registro de la tabla para proceder con la modificación.
                 MessageBox.Show("Selecciona una cita de la tabla de Agenda para modificar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void dataGridView3_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Se comprueba que la interacción haya ocurrido sobre una fila de datos y no sobre la cabecera de las columnas.
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dataGridView3.Rows[e.RowIndex];
+
+                // Se extrae la clave primaria del veterinario de forma segura, previendo posibles retornos nulos.
+                rutVeterinarioSeleccionado = fila.Cells["Rut_Veterinario"].Value?.ToString() ?? "";
+
+                // Se extrae y concatena la información textual para brindar retroalimentación en la interfaz gráfica.
+                string nombreDoc = fila.Cells["Nombre"].Value?.ToString() ?? "";
+                string apellidoDoc = fila.Cells["Apellido"].Value?.ToString() ?? "";
+
+                // Se inyecta la cadena resultante en el control visual de sólo lectura.
+                textBox2.Text = nombreDoc + " " + apellidoDoc;
             }
         }
     }

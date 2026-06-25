@@ -40,8 +40,12 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -68,7 +72,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(297, 230);
+            this.textBox1.Location = new System.Drawing.Point(297, 198);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(100, 22);
@@ -84,7 +88,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(133, 236);
+            this.label1.Location = new System.Drawing.Point(133, 204);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 16);
             this.label1.TabIndex = 4;
@@ -140,7 +144,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(688, 370);
+            this.button4.Location = new System.Drawing.Point(688, 406);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 10;
@@ -157,11 +161,42 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Hora:";
             // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(688, 230);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowHeadersWidth = 51;
+            this.dataGridView3.RowTemplate.Height = 24;
+            this.dataGridView3.Size = new System.Drawing.Size(392, 150);
+            this.dataGridView3.TabIndex = 12;
+            this.dataGridView3.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView3_RowHeaderMouseClick);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(297, 239);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(100, 22);
+            this.textBox2.TabIndex = 13;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(133, 245);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(75, 16);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Veterinario:";
+            // 
             // FormsAgendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1230, 450);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.dataGridView3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -179,6 +214,7 @@
             this.Load += new System.EventHandler(this.FormsAgendar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,5 +234,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label4;
     }
 }
